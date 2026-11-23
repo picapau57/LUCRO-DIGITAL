@@ -1,0 +1,3849 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LUCRO DIGITAL — Seu dinheiro, suas oportunidades</title>
+  <meta name="description" content="Plataforma fintech para gestão de aportes, acompanhamento de investimentos, rendimentos transparentes, indicações e solicitações de saque." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ==========================================================================
+       LUCRO DIGITAL — DESIGN SYSTEM & TOKENS
+       Paleta: Fundo azul profundo (#060B18), superfícies (#0D1528 / #131D35),
+       verde positivo (#10B981), dourado premium (#D4AF37), azul foco (#3B82F6).
+       ========================================================================== */
+    :root {
+      --bg-canvas: #060B18;
+      --bg-surface: #0D1528;
+      --bg-elevated: #131D35;
+      --bg-input: #091020;
+      --border-hairline: rgba(148, 163, 184, 0.16);
+      --border-strong: rgba(148, 163, 184, 0.28);
+      --text-primary: #F1F5F9;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --accent-blue: #2563EB;
+      --accent-blue-hover: #1D4ED8;
+      --accent-gold: #D4AF37;
+      --accent-gold-soft: rgba(212, 175, 55, 0.14);
+      --positive: #10B981;
+      --positive-soft: rgba(16, 185, 129, 0.14);
+      --warning: #F59E0B;
+      --warning-soft: rgba(245, 158, 11, 0.14);
+      --danger: #EF4444;
+      --danger-soft: rgba(239, 68, 68, 0.14);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.55;
+      letter-spacing: 0.01em;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      margin: 0;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+      color: var(--text-primary);
+    }
+
+    p { margin: 0; }
+
+    a { color: inherit; text-decoration: none; }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 2px solid var(--accent-blue);
+      outline-offset: 2px;
+    }
+
+    .tabular { font-variant-numeric: tabular-nums; font-family: var(--font-mono); }
+    .num-sans { font-variant-numeric: tabular-nums; }
+    .hidden { display: none !important; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;
+    }
+
+    /* Ambient lighting without clutter */
+    .ambient-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(800px 420px at 15% -5%, rgba(37, 99, 235, 0.14), transparent 70%),
+        radial-gradient(640px 380px at 88% 8%, rgba(212, 175, 55, 0.08), transparent 70%);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      min-height: 42px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 14px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background-color 160ms var(--ease-out), border-color 160ms var(--ease-out), transform 140ms var(--ease-out), color 160ms var(--ease-out);
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-sm { min-height: 36px; padding: 7px 14px; font-size: 13px; }
+    .btn-primary {
+      background: var(--accent-blue);
+      color: #FFFFFF;
+    }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-blue-hover); }
+    .btn-gold {
+      background: linear-gradient(135deg, #D4AF37 0%, #B88E1E 100%);
+      color: #060B18;
+    }
+    .btn-gold:hover:not(:disabled) { filter: brightness(1.07); }
+    .btn-secondary {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border-color: var(--border-strong);
+    }
+    .btn-secondary:hover:not(:disabled) { background: #1A2744; border-color: rgba(148,163,184,0.45); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+    }
+    .btn-ghost:hover:not(:disabled) { background: rgba(148,163,184,0.08); color: var(--text-primary); }
+    .btn-danger {
+      background: var(--danger-soft);
+      color: #FCA5A5;
+      border-color: rgba(239, 68, 68, 0.35);
+    }
+    .btn-danger:hover:not(:disabled) { background: rgba(239, 68, 68, 0.24); }
+    .btn-positive {
+      background: var(--positive-soft);
+      color: #6EE7B7;
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+    .btn-positive:hover:not(:disabled) { background: rgba(16, 185, 129, 0.24); }
+
+    /* Form Controls */
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    .input, .select, .textarea {
+      width: 100%;
+      min-height: 42px;
+      padding: 10px 14px;
+      background: var(--bg-input);
+      color: var(--text-primary);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      transition: border-color 150ms var(--ease-out);
+    }
+    .textarea { min-height: 92px; resize: vertical; }
+    .input:focus, .select:focus, .textarea:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+    }
+    .input::placeholder, .textarea::placeholder { color: var(--text-muted); }
+
+    /* Cards & Surfaces (1-level elevation, hairline border) */
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .card-title { font-size: 17px; font-weight: 600; }
+    .card-subtitle { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+
+    /* Segmented Controls (Interactive Filters/Tabs) */
+    .segmented {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-hairline);
+      border-radius: 10px;
+      flex-wrap: wrap;
+    }
+    .segmented button {
+      padding: 7px 14px;
+      min-height: 34px;
+      border: none;
+      border-radius: 7px;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 150ms var(--ease-out), color 150ms var(--ease-out);
+    }
+    .segmented button.active {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    }
+
+    /* Tables */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border-top: 1px solid var(--border-hairline);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13.5px;
+    }
+    th {
+      padding: 12px 14px;
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-hairline);
+      white-space: nowrap;
+    }
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+      vertical-align: middle;
+    }
+    tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
+    .text-right { text-align: right; }
+
+    /* Semantic Text Indicators (Accessible: icon + text, never hue-only) */
+    .state-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .state-positive { color: #34D399; }
+    .state-warning { color: #FBBF24; }
+    .state-danger { color: #F87171; }
+    .state-info { color: #60A5FA; }
+    .state-neutral { color: var(--text-secondary); }
+
+    /* Grids */
+    .container {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+    .grid-6 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+
+    /* ==========================================================================
+       LANDING PAGE (Strict 3-Zone Top Bar Contract)
+       ========================================================================== */
+    .landing-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(6, 11, 24, 0.86);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-hairline);
+    }
+    .landing-header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      height: 70px;
+    }
+    .brand-lockup {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .landing-nav {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+    .landing-nav a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 4px 0;
+      border-bottom: 1px solid transparent;
+      transition: color 150ms, border-color 150ms;
+    }
+    .landing-nav a:hover { color: var(--text-primary); border-bottom-color: var(--accent-gold); }
+
+    .hero-section {
+      position: relative;
+      z-index: 1;
+      padding: 72px 0 64px;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 48px;
+      align-items: stretch;
+    }
+    .hero-kicker {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-gold);
+      margin-bottom: 14px;
+    }
+    .hero-title {
+      font-size: clamp(2.25rem, 4vw, 3.5rem);
+      line-height: 1.08;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+    .hero-desc {
+      font-size: 16.5px;
+      color: var(--text-secondary);
+      max-width: 58ch;
+      margin-bottom: 28px;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .hero-visual {
+      background: linear-gradient(160deg, var(--bg-surface) 0%, #091226 100%);
+      border: 1px solid var(--border-hairline);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .landing-section {
+      position: relative;
+      z-index: 1;
+      padding: 72px 0;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+    .section-head {
+      max-width: 680px;
+      margin-bottom: 40px;
+    }
+    .section-head h2 {
+      font-size: clamp(1.65rem, 2.8vw, 2.35rem);
+      margin-bottom: 10px;
+    }
+    .section-head p { color: var(--text-secondary); font-size: 15.5px; }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border-hairline);
+    }
+    .faq-trigger {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      padding: 18px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 15.5px;
+      cursor: pointer;
+    }
+    .faq-body {
+      padding: 0 0 18px;
+      color: var(--text-secondary);
+      font-size: 14.5px;
+      display: none;
+    }
+    .faq-item.open .faq-body { display: block; }
+
+    .landing-footer {
+      position: relative;
+      z-index: 1;
+      padding: 48px 0;
+      background: #040812;
+      color: var(--text-secondary);
+      font-size: 13.5px;
+    }
+
+    /* ==========================================================================
+       APP WORKSPACE SHELL (Sidebar + Topbar + Viewport)
+       ========================================================================== */
+    .app-shell {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 264px;
+      flex-shrink: 0;
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border-hairline);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 35;
+      transition: transform 200ms var(--ease-out);
+    }
+    .sidebar-brand {
+      padding: 20px 22px;
+      border-bottom: 1px solid var(--border-hairline);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .sidebar-nav {
+      padding: 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+    .nav-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 12px;
+      min-height: 42px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: left;
+      white-space: nowrap;
+      transition: background-color 140ms, color 140ms, border-color 140ms;
+    }
+    .nav-btn:hover { background: rgba(148,163,184,0.08); color: var(--text-primary); }
+    .nav-btn.active {
+      background: rgba(37, 99, 235, 0.14);
+      color: #FFFFFF;
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+    .nav-btn.admin-item { color: #FCD34D; }
+    .nav-btn.admin-item.active {
+      background: var(--accent-gold-soft);
+      border-color: rgba(212, 175, 55, 0.35);
+      color: #FDE68A;
+    }
+
+    .sidebar-footer {
+      padding: 14px 16px;
+      border-top: 1px solid var(--border-hairline);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .app-main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .app-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(6, 11, 24, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-hairline);
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 66px;
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+    .mobile-menu-btn {
+      display: none;
+      width: 40px;
+      height: 40px;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .demo-banner {
+      background: rgba(212, 175, 55, 0.1);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+      padding: 8px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: #FDE68A;
+    }
+    .app-content {
+      padding: 28px;
+      max-width: 1320px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* KPI Card */
+    .kpi-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .kpi-label { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+    .kpi-value { font-size: 24px; font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .kpi-meta { font-size: 12.5px; color: var(--text-muted); }
+
+    /* Notification Popover */
+    .notif-wrap { position: relative; }
+    .notif-btn {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+    .notif-count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      min-width: 19px;
+      height: 19px;
+      padding: 0 5px;
+      border-radius: 999px;
+      background: var(--accent-gold);
+      color: #060B18;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .notif-panel {
+      position: absolute;
+      right: 0;
+      top: 48px;
+      width: min(380px, 92vw);
+      max-height: 440px;
+      overflow-y: auto;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+      z-index: 60;
+    }
+    .notif-item {
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--border-hairline);
+      cursor: pointer;
+    }
+    .notif-item.unread { background: rgba(37, 99, 235, 0.08); }
+
+    /* Modals & Drawers */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 16, 0.78);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 80;
+    }
+    .modal-box {
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+    }
+    .modal-box.wide { max-width: 760px; }
+
+    /* Toast Feedback */
+    .toast-stack {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 380px;
+    }
+    .toast {
+      padding: 13px 16px;
+      border-radius: var(--radius-md);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-strong);
+      color: var(--text-primary);
+      font-size: 13.5px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      animation: fadeSlideUp 180ms var(--ease-out);
+    }
+    .toast.success { border-color: rgba(16,185,129,0.5); }
+    .toast.error { border-color: rgba(239,68,68,0.5); }
+    .toast.warning { border-color: rgba(245,158,11,0.5); }
+
+    /* Quick Amount Selector */
+    .amount-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .amount-chip {
+      min-height: 42px;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-input);
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: 13.5px;
+      cursor: pointer;
+      font-variant-numeric: tabular-nums;
+      transition: border-color 140ms, background-color 140ms;
+    }
+    .amount-chip.active {
+      background: rgba(37, 99, 235, 0.2);
+      border-color: var(--accent-blue);
+      color: #FFFFFF;
+    }
+
+    /* Notice Box (no thick left border!) */
+    .notice-box {
+      background: rgba(148, 163, 184, 0.06);
+      border: 1px solid var(--border-hairline);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .notice-box.gold {
+      background: rgba(212, 175, 55, 0.07);
+      border-color: rgba(212, 175, 55, 0.28);
+      color: #FDE68A;
+    }
+
+    /* Charts */
+    .chart-box {
+      width: 100%;
+      position: relative;
+      min-height: 250px;
+    }
+    .chart-svg { width: 100%; height: 260px; display: block; overflow: visible; }
+    .chart-tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: #040812;
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      padding: 8px 11px;
+      font-size: 12px;
+      color: var(--text-primary);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      z-index: 10;
+      white-space: nowrap;
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 1080px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-6 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .landing-nav { display: none; }
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+      }
+      .sidebar.open { transform: translateX(0); }
+      .mobile-menu-btn { display: inline-flex; }
+      .app-content { padding: 18px; }
+      .app-topbar { padding: 12px 18px; }
+      .demo-banner { padding: 8px 18px; }
+      .grid-2, .grid-3, .grid-4, .grid-6 { grid-template-columns: 1fr; }
+      .amount-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    /* Print / PDF Export Styles */
+    @media print {
+      body { background: #FFFFFF; color: #0F172A; }
+      .sidebar, .app-topbar, .demo-banner, .no-print, .toast-stack { display: none !important; }
+      .card { border: 1px solid #CBD5E1; background: #FFFFFF; color: #0F172A; break-inside: avoid; }
+      .app-content { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-glow" aria-hidden="true"></div>
+
+  <!-- ========================================================================
+       1. LANDING PAGE (#landing-view)
+       ======================================================================== -->
+  <div id="landing-view">
+    <header class="landing-header">
+      <div class="container landing-header-inner">
+        <a href="#top" class="brand-lockup" aria-label="LUCRO DIGITAL">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="28" height="28" rx="8" fill="#0D1528" stroke="#D4AF37" stroke-width="1.5"/>
+            <path d="M9 21L14.5 15.5L18 18.5L23.5 11.5" stroke="#10B981" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M19.5 11.5H23.5V15.5" stroke="#10B981" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>LUCRO DIGITAL</span>
+        </a>
+
+        <nav class="landing-nav" aria-label="Navegação principal">
+          <a href="#como-funciona">Como Funciona</a>
+          <a href="#produtos">Produtos</a>
+          <a href="#calculadora-publica">Calculadora</a>
+          <a href="#indicacoes-publica">Indicações</a>
+          <a href="#faq">Perguntas</a>
+        </nav>
+
+        <button type="button" class="btn btn-gold btn-sm" onclick="openAuthModal('login')">
+          Acessar Plataforma
+        </button>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- HERO SECTION -->
+      <section class="hero-section">
+        <div class="container hero-grid">
+          <div style="display:flex; flex-direction:column; justify-content:center;">
+            <p class="hero-kicker">Seu dinheiro, suas oportunidades</p>
+            <h1 class="hero-title">Gestão clara de aportes, rendimentos e saques planejados.</h1>
+            <p class="hero-desc">
+              Acompanhe seus investimentos a partir de R$ 20,00 com transparência sobre regras, taxas, riscos e liquidez.
+              Explore todos os recursos agora no Modo Demonstração antes de integrar uma operação financeira autorizada.
+            </p>
+            <div class="hero-actions">
+              <button type="button" class="btn btn-primary" onclick="openAuthModal('register')">
+                Criar Minha Conta
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="enterDemoWorkspace('user')">
+                Testar Demonstração
+              </button>
+            </div>
+            <p style="font-size:13px; color:var(--text-muted);">
+              Ambiente demonstrativo educativo e estrutural · Sem promessa de retorno garantido · Adequável à legislação brasileira
+            </p>
+          </div>
+
+          <div class="hero-visual">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
+              <div>
+                <div style="font-size:12.5px; color:var(--text-secondary);">Painel demonstrativo consolidado</div>
+                <div class="tabular" style="font-size:28px; font-weight:700; margin-top:4px;">R$ 12.480,00</div>
+              </div>
+              <span class="state-text state-positive">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                Projeção ilustrativa
+              </span>
+            </div>
+
+            <!-- Inline SVG Hero Chart -->
+            <svg viewBox="0 0 460 175" style="width:100%; height:auto; display:block;" aria-label="Gráfico ilustrativo de evolução patrimonial">
+              <defs>
+                <linearGradient id="heroChartGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#10B981" stop-opacity="0.32"/>
+                  <stop offset="100%" stop-color="#10B981" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <line x1="0" y1="40" x2="460" y2="40" stroke="rgba(148,163,184,0.1)" stroke-dasharray="4 4"/>
+              <line x1="0" y1="90" x2="460" y2="90" stroke="rgba(148,163,184,0.1)" stroke-dasharray="4 4"/>
+              <line x1="0" y1="140" x2="460" y2="140" stroke="rgba(148,163,184,0.1)" stroke-dasharray="4 4"/>
+              <path d="M 10 142 C 70 138, 115 118, 165 112 C 215 106, 260 88, 315 76 C 365 64, 410 42, 450 28 L 450 165 L 10 165 Z" fill="url(#heroChartGrad)"/>
+              <path d="M 10 142 C 70 138, 115 118, 165 112 C 215 106, 260 88, 315 76 C 365 64, 410 42, 450 28" fill="none" stroke="#10B981" stroke-width="2.6" stroke-linecap="round"/>
+              <circle cx="450" cy="28" r="5" fill="#10B981"/>
+              <circle cx="315" cy="76" r="4" fill="#D4AF37"/>
+              <circle cx="165" cy="112" r="4" fill="#3B82F6"/>
+            </svg>
+
+            <div class="grid-3" style="gap:12px; border-top:1px solid var(--border-hairline); padding-top:16px;">
+              <div>
+                <div style="font-size:12px; color:var(--text-secondary);">Aporte mínimo</div>
+                <div class="tabular" style="font-size:15px; font-weight:600; margin-top:2px;">R$ 20,00</div>
+              </div>
+              <div>
+                <div style="font-size:12px; color:var(--text-secondary);">Ciclo de saques</div>
+                <div style="font-size:15px; font-weight:600; margin-top:2px;">Bimestral</div>
+              </div>
+              <div>
+                <div style="font-size:12px; color:var(--text-secondary);">Transparência</div>
+                <div style="font-size:15px; font-weight:600; color:var(--accent-gold); margin-top:2px;">Taxas claras</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section id="como-funciona" class="landing-section">
+        <div class="container">
+          <div class="section-head">
+            <h2>Como funciona a plataforma</h2>
+            <p>Um fluxo direto, com registro auditável de cada operação e regras visíveis antes de qualquer confirmação.</p>
+          </div>
+          <div class="grid-4">
+            <div class="card">
+              <div style="font-size:13px; font-weight:600; color:var(--accent-gold); margin-bottom:8px;">01. Cadastro e Verificação</div>
+              <h3 style="font-size:17px; margin-bottom:8px;">Conta identificada</h3>
+              <p style="font-size:14px; color:var(--text-secondary);">Registro com CPF, e-mail, telefone, aceite expresso dos termos e verificação de identidade quando exigida.</p>
+            </div>
+            <div class="card">
+              <div style="font-size:13px; font-weight:600; color:var(--accent-gold); margin-bottom:8px;">02. Escolha de Produto</div>
+              <h3 style="font-size:17px; margin-bottom:8px;">Planos transparentes</h3>
+              <p style="font-size:14px; color:var(--text-secondary);">Compare prazos, liquidez, taxas, riscos e instituição responsável antes de decidir onde alocar.</p>
+            </div>
+            <div class="card">
+              <div style="font-size:13px; font-weight:600; color:var(--accent-gold); margin-bottom:8px;">03. Aportes a partir de R$ 20</div>
+              <h3 style="font-size:17px; margin-bottom:8px;">Resumo prévio</h3>
+              <p style="font-size:14px; color:var(--text-secondary);">Antes de confirmar qualquer aporte, visualize taxas aplicáveis, prazo contratado e estimativa matemática.</p>
+            </div>
+            <div class="card">
+              <div style="font-size:13px; font-weight:600; color:var(--accent-gold); margin-bottom:8px;">04. Saques e Reinvestimento</div>
+              <h3 style="font-size:17px; margin-bottom:8px;">Controle completo</h3>
+              <p style="font-size:14px; color:var(--text-secondary);">Acompanhe movimentações, solicite saques dentro do calendário bimestral ou autorize reinvestimentos.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PRODUCTS OVERVIEW -->
+      <section id="produtos" class="landing-section">
+        <div class="container">
+          <div class="section-head">
+            <h2>Oportunidades de investimento</h2>
+            <p>Produtos estruturados com informações claras de liquidez, riscos, taxas administrativas e instituição custodiante.</p>
+          </div>
+          <div id="landing-products-grid" class="grid-2"></div>
+        </div>
+      </section>
+
+      <!-- PUBLIC INTERACTIVE CALCULATOR -->
+      <section id="calculadora-publica" class="landing-section">
+        <div class="container">
+          <div class="section-head">
+            <h2>Calculadora de projeção matemática</h2>
+            <p>Simule cenários Conservador, Moderado e Otimista combinando aporte inicial, aportes mensais e prazo.</p>
+          </div>
+          <div id="landing-calculator-mount"></div>
+        </div>
+      </section>
+
+      <!-- REFERRAL PROGRAM OVERVIEW -->
+      <section id="indicacoes-publica" class="landing-section">
+        <div class="container grid-2" style="align-items:center;">
+          <div>
+            <h2 style="font-size:clamp(1.6rem, 2.6vw, 2.2rem); margin-bottom:12px;">Programa de indicação com orçamento promocional definido</h2>
+            <p style="color:var(--text-secondary); margin-bottom:18px;">
+              Convide amigos através do seu código exclusivo, link ou QR Code. Os bônus promocionais possuem teto transparente,
+              regras claras e são custeados exclusivamente pelo orçamento comercial da plataforma — nunca por depósitos de outros participantes.
+            </p>
+            <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; color:var(--text-secondary);">
+              <div>· Bônus fixo limitado por usuário qualificado (sem comissões ilimitadas em rede)</div>
+              <div>· Acompanhamento em tempo real de convidados cadastrados e elegíveis</div>
+              <div>· Compartilhamento direto para WhatsApp, redes sociais ou link copiável</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title" style="margin-bottom:6px;">Exemplo de regra promocional ativa</div>
+            <p style="font-size:13.5px; color:var(--text-secondary); margin-bottom:18px;">
+              Configurável pelo administrador no painel de gestão de campanhas.
+            </p>
+            <div class="grid-2" style="gap:14px;">
+              <div style="padding:14px; background:var(--bg-input); border:1px solid var(--border-hairline); border-radius:10px;">
+                <div style="font-size:12px; color:var(--text-secondary);">Bônus por indicação validada</div>
+                <div class="tabular" style="font-size:20px; font-weight:700; color:var(--positive); margin-top:4px;">R$ 15,00</div>
+              </div>
+              <div style="padding:14px; background:var(--bg-input); border:1px solid var(--border-hairline); border-radius:10px;">
+                <div style="font-size:12px; color:var(--text-secondary);">Limite por participante</div>
+                <div class="tabular" style="font-size:20px; font-weight:700; color:var(--accent-gold); margin-top:4px;">10 indicações</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ & RISK NOTICE -->
+      <section id="faq" class="landing-section">
+        <div class="container grid-2" style="align-items:start; gap:36px;">
+          <div>
+            <h2 style="font-size:26px; margin-bottom:18px;">Perguntas frequentes</h2>
+            <div id="landing-faq-list"></div>
+          </div>
+          <div class="card">
+            <h3 style="font-size:19px; margin-bottom:12px; color:var(--accent-gold);">Aviso de Risco e Conformidade Legal</h3>
+            <p style="font-size:14px; color:var(--text-secondary); margin-bottom:12px;">
+              Esta interface opera inicialmente em <strong>Modo Demonstração</strong> com valores fictícios para validação de experiência e arquitetura. Nenhuma movimentação financeira real ocorre neste ambiente sem integração com backend seguro e instituição autorizada.
+            </p>
+            <p style="font-size:14px; color:var(--text-secondary); margin-bottom:16px;">
+              Investimentos envolvem riscos de mercado, crédito e liquidez. Rentabilidade passada ou projeções matemáticas não garantem retornos futuros. Não invista recursos necessários no curto prazo ou que comprometam seu orçamento essencial.
+            </p>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="openLegalModal('terms')">Termos de Uso</button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="openLegalModal('privacy')">Política de Privacidade</button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="openLegalModal('risks')">Política de Riscos</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="landing-footer">
+      <div class="container" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:20px;">
+        <div>
+          <strong style="color:var(--text-primary);">LUCRO DIGITAL</strong> · Seu dinheiro, suas oportunidades.
+          <div style="margin-top:4px; font-size:12.5px; color:var(--text-muted);">
+            Adequável às normas da CVM, Banco Central do Brasil e LGPD antes da operação em produção.
+          </div>
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+          <button type="button" class="btn btn-ghost btn-sm" onclick="downloadStandaloneHtml()">Baixar LUCRO_DIGITAL.html</button>
+          <button type="button" class="btn btn-primary btn-sm" onclick="enterDemoWorkspace('user')">Entrar no Modo Demo</button>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ========================================================================
+       2. AUTHENTICATION MODAL (#auth-modal)
+       ======================================================================== -->
+  <div id="auth-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+    <div class="modal-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:18px;">
+        <div>
+          <h2 id="auth-modal-title" style="font-size:22px;">Acesso à Plataforma</h2>
+          <p style="font-size:13px; color:var(--text-secondary);">Autenticação demonstrativa preparada para backend seguro</p>
+        </div>
+        <button type="button" class="btn btn-ghost btn-sm" onclick="closeAuthModal()" aria-label="Fechar">Fechar</button>
+      </div>
+
+      <div class="segmented" style="width:100%; margin-bottom:18px;">
+        <button type="button" id="tab-auth-login" class="active" style="flex:1;" onclick="switchAuthTab('login')">Entrar na Conta</button>
+        <button type="button" id="tab-auth-register" style="flex:1;" onclick="switchAuthTab('register')">Criar Conta</button>
+        <button type="button" id="tab-auth-recover" style="flex:1;" onclick="switchAuthTab('recover')">Recuperar Senha</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="form-login" onsubmit="handleLoginSubmit(event)" style="display:flex; flex-direction:column; gap:14px;">
+        <div class="field">
+          <label for="login-email">E-mail ou CPF</label>
+          <input id="login-email" class="input" type="text" required placeholder="seu@email.com ou 000.000.000-00" />
+        </div>
+        <div class="field">
+          <label for="login-password">Senha</label>
+          <input id="login-password" class="input" type="password" required placeholder="••••••••" />
+        </div>
+        <div class="notice-box" style="font-size:12.5px;">
+          Segurança: senhas reais nunca são armazenadas no navegador (<code>localStorage</code>). Em produção, utilize JWT/OAuth2 com hash Argon2/bcrypt no servidor.
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Entrar na Conta</button>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; border-top:1px solid var(--border-hairline); padding-top:12px;">
+          <button type="button" class="btn btn-secondary btn-sm" style="flex:1;" onclick="enterDemoWorkspace('user')">Demo Investidor</button>
+          <button type="button" class="btn btn-gold btn-sm" style="flex:1;" onclick="enterDemoWorkspace('admin')">Demo Administrador</button>
+        </div>
+      </form>
+
+      <!-- REGISTER FORM -->
+      <form id="form-register" class="hidden" onsubmit="handleRegisterSubmit(event)" style="display:flex; flex-direction:column; gap:12px;">
+        <div class="field">
+          <label for="reg-name">Nome completo</label>
+          <input id="reg-name" class="input" type="text" required placeholder="Nome completo" />
+        </div>
+        <div class="grid-2" style="gap:12px;">
+          <div class="field">
+            <label for="reg-cpf">CPF</label>
+            <input id="reg-cpf" class="input tabular" type="text" required maxlength="14" placeholder="000.000.000-00" oninput="this.value = maskCPF(this.value)" />
+          </div>
+          <div class="field">
+            <label for="reg-phone">Telefone</label>
+            <input id="reg-phone" class="input tabular" type="text" required maxlength="15" placeholder="(11) 99999-9999" oninput="this.value = maskPhone(this.value)" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="reg-email">E-mail</label>
+          <input id="reg-email" class="input" type="email" required placeholder="nome@dominio.com" />
+        </div>
+        <div class="grid-2" style="gap:12px;">
+          <div class="field">
+            <label for="reg-pass">Senha (mín. 6 caracteres)</label>
+            <input id="reg-pass" class="input" type="password" required minlength="6" placeholder="••••••" />
+          </div>
+          <div class="field">
+            <label for="reg-pass2">Confirmar senha</label>
+            <input id="reg-pass2" class="input" type="password" required minlength="6" placeholder="••••••" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="reg-ref">Código de indicação (opcional)</label>
+          <input id="reg-ref" class="input tabular" type="text" placeholder="Ex: LUCRO2026" />
+        </div>
+        <label style="display:flex; align-items:flex-start; gap:8px; font-size:13px; color:var(--text-secondary); cursor:pointer;">
+          <input id="reg-terms" type="checkbox" required style="margin-top:3px;" />
+          <span>Aceito os <button type="button" onclick="openLegalModal('terms')" style="background:none;border:none;color:var(--accent-blue);padding:0;cursor:pointer;text-decoration:underline;">Termos de Uso</button>, a <button type="button" onclick="openLegalModal('privacy')" style="background:none;border:none;color:var(--accent-blue);padding:0;cursor:pointer;text-decoration:underline;">Política de Privacidade</button> e estou ciente da verificação de identidade (KYC) quando aplicável.</span>
+        </label>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Criar Conta</button>
+      </form>
+
+      <!-- RECOVER PASSWORD FORM -->
+      <form id="form-recover" class="hidden" onsubmit="handleRecoverSubmit(event)" style="display:flex; flex-direction:column; gap:14px;">
+        <div class="field">
+          <label for="rec-email">E-mail cadastrado</label>
+          <input id="rec-email" class="input" type="email" required placeholder="seu@email.com" />
+        </div>
+        <p style="font-size:13px; color:var(--text-secondary);">
+          Em ambiente de produção, o servidor enviará um token temporário com validade de 15 minutos para redefinição segura.
+        </p>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Recuperar Senha</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       3. AUTHENTICATED APPLICATION SHELL (#app-shell)
+       ======================================================================== -->
+  <div id="app-shell" class="app-shell hidden">
+    <aside id="sidebar" class="sidebar" aria-label="Menu lateral">
+      <div class="sidebar-brand">
+        <div class="brand-lockup" style="font-size:17px;">
+          <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="28" height="28" rx="8" fill="#060B18" stroke="#D4AF37" stroke-width="1.5"/>
+            <path d="M9 21L14.5 15.5L18 18.5L23.5 11.5" stroke="#10B981" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>LUCRO DIGITAL</span>
+        </div>
+        <button type="button" class="btn btn-ghost btn-sm mobile-menu-btn" onclick="toggleSidebar(false)" aria-label="Fechar menu">✕</button>
+      </div>
+
+      <nav id="sidebar-nav" class="sidebar-nav"></nav>
+
+      <div class="sidebar-footer">
+        <div style="font-size:12.5px; color:var(--text-secondary);">
+          Conta ativa: <strong id="sidebar-user-name" style="color:var(--text-primary);">Investidor</strong>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn btn-secondary btn-sm" style="flex:1;" onclick="backToLanding()">Início</button>
+          <button type="button" class="btn btn-ghost btn-sm" style="flex:1;" onclick="logoutUser()">Sair</button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <div class="demo-banner no-print">
+        <div>
+          <strong>MODO DEMONSTRAÇÃO</strong> · Dados simulados para validação de interface e fluxo. Nenhuma operação financeira real é processada aqui.
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="toggleDemoRole()">Alternar Perfil (<span id="role-switch-label">Ir para Admin</span>)</button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="restoreDemoData()">Restaurar Demonstração</button>
+          <button type="button" class="btn btn-danger btn-sm" onclick="zeroDemoData()">Zerar Dados Demonstrativos</button>
+        </div>
+      </div>
+
+      <header class="app-topbar no-print">
+        <div class="topbar-left">
+          <button type="button" class="mobile-menu-btn" onclick="toggleSidebar(true)" aria-label="Abrir menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div>
+            <h1 id="page-title" style="font-size:19px;">Dashboard</h1>
+            <div id="page-subtitle" style="font-size:12.5px; color:var(--text-secondary);">Visão geral da conta demonstrativa</div>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button type="button" class="btn btn-primary btn-sm" onclick="navigateTo('investimentos')">Realizar Aporte</button>
+          <div class="notif-wrap">
+            <button type="button" class="notif-btn" onclick="toggleNotifications()" aria-label="Notificações">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span id="notif-badge" class="notif-count hidden">0</span>
+            </button>
+            <div id="notif-panel" class="notif-panel hidden"></div>
+          </div>
+        </div>
+      </header>
+
+      <main id="app-content" class="app-content"></main>
+    </div>
+  </div>
+
+  <!-- GENERIC MODAL & TOAST STACK -->
+  <div id="generic-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div id="generic-modal-box" class="modal-box"></div>
+  </div>
+  <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+
+  <script>
+    /* ==========================================================================
+       LUCRO DIGITAL — CAMADA DE INTEGRAÇÃO DOCUMENTADA (BACKEND / API / PIX)
+       IMPORTANTE:
+       - Este arquivo HTML único contém a interface completa e um motor de
+         MODO DEMONSTRAÇÃO isolado em memória/sessionStorage/demoStore.
+       - NUNCA utilize localStorage como banco financeiro real em produção.
+       - NUNCA armazene senhas reais no navegador.
+       - Todas as validações de saldo, aportes, rendimentos verificáveis e
+         aprovações de saques devem ocorrer no servidor (HTTPS + Auth + DB).
+       ========================================================================== */
+    const IntegrationConfig = {
+      mode: 'DEMO', // 'DEMO' | 'SUPABASE' | 'FIREBASE' | 'REST_API'
+      apiBaseUrl: 'https://api.seudominio.com.br/v1',
+      supabase: { url: '', anonKey: '' },
+      firebase: { apiKey: '', authDomain: '', projectId: '' },
+      paymentGateway: {
+        provider: 'PIX_AUTORIZADO_BACEN',
+        webhookEndpoint: '/api/webhooks/pix',
+        requiresServerSignature: true
+      },
+      // Adaptador pronto para substituir chamadas demonstrativas por requisições reais
+      async request(endpoint, method = 'GET', payload = null) {
+        if (this.mode === 'DEMO') {
+          return { ok: true, demo: true, endpoint, method, payload };
+        }
+        const res = await fetch(`${this.apiBaseUrl}${endpoint}`, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include', // Cookies HttpOnly seguros
+          body: payload ? JSON.stringify(payload) : undefined
+        });
+        if (!res.ok) throw new Error(`Erro de servidor (${res.status})`);
+        return res.json();
+      }
+    };
+
+    /* ==========================================================================
+       ESTADO DEMONSTRATIVO INICIAL & PERSISTÊNCIA DE SESSÃO DEMO
+       ========================================================================== */
+    const DEMO_STORAGE_KEY = 'lucro_digital_demo_sandbox_v1';
+
+    function createInitialDemoState() {
+      return {
+        isDemo: true,
+        authenticated: false,
+        activeRole: 'user', // 'user' | 'admin'
+        currentView: 'dashboard',
+        chartRange: 'mensal',
+        adminTab: 'usuarios',
+        user: {
+          id: 'USR-1001',
+          name: 'Mariana Oliveira Costa',
+          cpf: '384.219.650-12',
+          email: 'mariana.demo@lucrodigital.com',
+          phone: '(11) 98412-3390',
+          status: 'VERIFICADA',
+          kycVerified: true,
+          referralCode: 'MARIANA26',
+          createdAt: '2026-06-14',
+          notifyEmail: true,
+          notifyWithdrawals: true,
+          notifyYields: true
+        },
+        balances: {
+          totalDeposits: 12000.00,
+          totalInvested: 11200.00,
+          accumulatedYields: 980.40,
+          availableYields: 420.40,
+          reinvestedYields: 560.00,
+          referralBonusAvailable: 45.00,
+          referralBonusReceived: 75.00,
+          totalWithdrawn: 785.00,
+          availableForWithdrawal: 1280.00
+        },
+        promoRules: {
+          active: true,
+          bonusPerQualifiedUser: 15.00,
+          maxReferralsPerUser: 10,
+          minDepositToQualify: 20.00,
+          campaignPeriod: '01/10/2026 a 31/12/2026',
+          totalBudget: 25000.00,
+          usedBudget: 3420.00
+        },
+        products: [
+          {
+            id: 'PRD-FLEX',
+            name: 'Plano Flexível',
+            category: 'PLANO FLEXÍVEL',
+            minAmount: 20.00,
+            termLabel: 'Sem carência (resgate programado)',
+            termMonths: 2,
+            feePercent: 0.40,
+            riskLevel: 'Baixo',
+            liquidity: 'Ciclos bimestrais de saque',
+            estimatedMonthlyRate: 0.72,
+            active: true,
+            institution: 'Custódia DTVM Parceira S.A. (Autorizada)',
+            description: 'Alocação em títulos de renda fixa pós-fixada com acompanhamento transparente e baixa volatilidade.',
+            rules: 'Aporte mínimo R$ 20,00. Taxa de administração de 0,40% ao ano. Resgates respeitam as janelas bimestrais.'
+          },
+          {
+            id: 'PRD-RENDA',
+            name: 'Plano de Renda',
+            category: 'PLANO DE RENDA',
+            minAmount: 50.00,
+            termLabel: '6 meses',
+            termMonths: 6,
+            feePercent: 0.65,
+            riskLevel: 'Moderado-Baixo',
+            liquidity: 'Rendimentos disponíveis a cada ciclo',
+            estimatedMonthlyRate: 0.92,
+            active: true,
+            institution: 'Banco Custodiante Meridional S.A.',
+            description: 'Carteira diversificada de recebíveis estruturados e créditos bancários com apuração mensal verificável.',
+            rules: 'Aporte mínimo R$ 50,00. Prazo de referência de 6 meses. Tributação conforme tabela regressiva vigente.'
+          },
+          {
+            id: 'PRD-LONGO',
+            name: 'Plano de Longo Prazo',
+            category: 'PLANO DE LONGO PRAZO',
+            minAmount: 100.00,
+            termLabel: '18 meses',
+            termMonths: 18,
+            feePercent: 0.80,
+            riskLevel: 'Moderado',
+            liquidity: 'No vencimento ou janela programada',
+            estimatedMonthlyRate: 1.08,
+            active: true,
+            institution: 'Gestora Horizonte Recursos Ltda.',
+            description: 'Foco em acumulação patrimonial de médio e longo prazo com títulos indexados à inflação e crédito privado.',
+            rules: 'Aporte mínimo R$ 100,00. Indicado para objetivos acima de 12 meses. Sujeito a marcação a mercado.'
+          },
+          {
+            id: 'PRD-PREM',
+            name: 'Plano Premium',
+            category: 'PLANO PREMIUM',
+            minAmount: 500.00,
+            termLabel: '24 meses',
+            termMonths: 24,
+            feePercent: 0.95,
+            riskLevel: 'Moderado-Alto',
+            liquidity: 'Janelas bimestrais após carência inicial',
+            estimatedMonthlyRate: 1.24,
+            active: true,
+            institution: 'Asset Brasil Institucional DTVM',
+            description: 'Estratégia multimercado balanceada para investidores que aceitam oscilações visando potencial superior.',
+            rules: 'Aporte mínimo R$ 500,00. Exige perfil compatível e ciência expressa dos riscos de mercado.'
+          }
+        ],
+        investments: [
+          { id: 'INV-8812', date: '2026-07-10', productId: 'PRD-FLEX', productName: 'Plano Flexível', amount: 2500.00, fee: 10.00, term: '2 meses', status: 'Ativo', estimatedYield: 18.00 },
+          { id: 'INV-8845', date: '2026-08-22', productId: 'PRD-RENDA', productName: 'Plano de Renda', amount: 4200.00, fee: 27.30, term: '6 meses', status: 'Ativo', estimatedYield: 38.64 },
+          { id: 'INV-8903', date: '2026-10-05', productId: 'PRD-LONGO', productName: 'Plano de Longo Prazo', amount: 4500.00, fee: 36.00, term: '18 meses', status: 'Ativo', estimatedYield: 48.60 }
+        ],
+        yieldHistory: [
+          { id: 'RND-301', date: '2026-08-01', productName: 'Plano Flexível', origin: 'Apuração mensal DTVM', amount: 174.20, disposition: 'Disponível' },
+          { id: 'RND-302', date: '2026-09-01', productName: 'Plano de Renda', origin: 'Distribuição de recebíveis', amount: 246.20, disposition: 'Disponível' },
+          { id: 'RND-303', date: '2026-10-01', productName: 'Plano de Longo Prazo', origin: 'Cupom indexado IPCA', amount: 310.00, disposition: 'Reinvestido' },
+          { id: 'RND-304', date: '2026-11-01', productName: 'Plano de Renda', origin: 'Distribuição de recebíveis', amount: 250.00, disposition: 'Reinvestido' }
+        ],
+        referrals: [
+          { id: 'REF-01', name: 'Carlos Eduardo Lima', date: '2026-08-14', stage: 'Ativo (Aportou R$ 200)', status: 'Ativo', bonus: 15.00 },
+          { id: 'REF-02', name: 'Fernanda Souza Mendes', date: '2026-09-03', stage: 'Ativo (Aportou R$ 500)', status: 'Ativo', bonus: 15.00 },
+          { id: 'REF-03', name: 'Rafael Henrique Dias', date: '2026-09-28', stage: 'Ativo (Aportou R$ 100)', status: 'Ativo', bonus: 15.00 },
+          { id: 'REF-04', name: 'Juliana Ribeiro Alves', date: '2026-10-19', stage: 'Cadastro concluído (aguarda aporte)', status: 'Cadastrado', bonus: 0.00 },
+          { id: 'REF-05', name: 'Lucas Martins Rocha', date: '2026-11-08', stage: 'Ativo (Aportou R$ 250)', status: 'Ativo', bonus: 15.00 }
+        ],
+        withdrawals: [
+          { id: 'SAQ-501', requestDate: '2026-09-12', processDate: '2026-09-14', cycle: 'Setembro / Outubro', amount: 785.00, fee: 0.00, method: 'PIX (CPF)', destination: '***.219.650-**', status: 'Pago', userId: 'USR-1001', userName: 'Mariana Oliveira Costa', note: 'Liquidado via PIX' },
+          { id: 'SAQ-502', requestDate: '2026-11-18', processDate: '2026-11-24', cycle: 'Novembro / Dezembro', amount: 320.00, fee: 0.00, method: 'PIX (E-mail)', destination: 'mariana.demo@lucrodigital.com', status: 'Pendente', userId: 'USR-1001', userName: 'Mariana Oliveira Costa', note: 'Aguardando janela de liquidação' }
+        ],
+        transactions: [
+          { id: 'TXN-9001', date: '2026-07-10', description: 'Depósito demonstrativo via PIX', type: 'Depósito', amount: 3000.00, status: 'Concluído' },
+          { id: 'TXN-9002', date: '2026-07-10', description: 'Aporte em Plano Flexível', type: 'Aporte', amount: -2500.00, status: 'Concluído' },
+          { id: 'TXN-9003', date: '2026-08-15', description: 'Bônus promocional de indicação (REF-01)', type: 'Bônus', amount: 15.00, status: 'Concluído' },
+          { id: 'TXN-9004', date: '2026-08-22', description: 'Depósito e aporte em Plano de Renda', type: 'Aporte', amount: 4200.00, status: 'Concluído' },
+          { id: 'TXN-9005', date: '2026-09-01', description: 'Rendimento apurado — Plano de Renda', type: 'Rendimento', amount: 246.20, status: 'Concluído' },
+          { id: 'TXN-9006', date: '2026-09-14', description: 'Saque liquidado via PIX (SAQ-501)', type: 'Saque', amount: -785.00, status: 'Pago' },
+          { id: 'TXN-9007', date: '2026-10-01', description: 'Reinvestimento autorizado pelo usuário', type: 'Reinvestimento', amount: 310.00, status: 'Concluído' },
+          { id: 'TXN-9008', date: '2026-10-05', description: 'Taxa administrativa — Plano Longo Prazo', type: 'Taxa', amount: -36.00, status: 'Concluído' },
+          { id: 'TXN-9009', date: '2026-11-18', description: 'Solicitação de saque SAQ-502', type: 'Saque', amount: -320.00, status: 'Pendente' }
+        ],
+        notifications: [
+          { id: 'NTF-1', date: '2026-11-18 14:20', title: 'Solicitação de saque registrada', body: 'Pedido SAQ-502 de R$ 320,00 está no ciclo Novembro/Dezembro.', read: false },
+          { id: 'NTF-2', date: '2026-11-08 09:45', title: 'Indicação confirmada', body: 'Seu convidado Lucas Martins realizou o primeiro aporte qualificado.', read: false },
+          { id: 'NTF-3', date: '2026-11-01 08:00', title: 'Rendimento registrado', body: 'Apuração mensal de R$ 250,00 creditada em seu painel.', read: true },
+          { id: 'NTF-4', date: '2026-10-15 11:10', title: 'Atualização de regras', body: 'Calendário bimestral de saques atualizado para o próximo exercício.', read: true }
+        ],
+        adminUsers: [
+          { id: 'USR-1001', name: 'Mariana Oliveira Costa', email: 'mariana.demo@lucrodigital.com', cpf: '384.219.650-12', invested: 11200.00, kyc: true, blocked: false, joined: '2026-06-14' },
+          { id: 'USR-1002', name: 'Carlos Eduardo Lima', email: 'carlos.lima@exemplo.com', cpf: '129.884.310-05', invested: 3400.00, kyc: true, blocked: false, joined: '2026-08-14' },
+          { id: 'USR-1003', name: 'Fernanda Souza Mendes', email: 'fernanda.mendes@exemplo.com', cpf: '551.092.478-90', invested: 6500.00, kyc: true, blocked: false, joined: '2026-09-03' },
+          { id: 'USR-1004', name: 'Thiago Barbosa Nunes', email: 'thiago.nunes@exemplo.com', cpf: '702.411.839-21', invested: 450.00, kyc: false, blocked: false, joined: '2026-11-12' }
+        ],
+        supportTickets: [
+          { id: 'SUP-204', date: '2026-11-10', subject: 'Dúvida sobre janela de saque Nov/Dez', category: 'Saques', status: 'Respondido', message: 'Gostaria de confirmar a data limite para solicitação no ciclo de novembro/dezembro.', reply: 'Solicitações enviadas até o dia 25 do segundo mês entram na janela vigente conforme o produto contratado.' }
+        ],
+        auditLogs: [
+          { date: '2026-11-18 14:20', actor: 'USR-1001', action: 'Solicitação de saque SAQ-502 (R$ 320,00) registrada em modo demo.' },
+          { date: '2026-11-01 08:00', actor: 'SISTEMA', action: 'Registro demonstrativo de rendimento RND-304.' }
+        ]
+      };
+    }
+
+    let state = loadDemoState();
+
+    function loadDemoState() {
+      try {
+        const raw = sessionStorage.getItem(DEMO_STORAGE_KEY);
+        if (raw) return JSON.parse(raw);
+      } catch (e) { /* fallback */ }
+      return createInitialDemoState();
+    }
+
+    function saveDemoState() {
+      try {
+        sessionStorage.setItem(DEMO_STORAGE_KEY, JSON.stringify(state));
+      } catch (e) { /* ignore quota */ }
+    }
+
+    /* ==========================================================================
+       UTILITÁRIOS: FORMATAÇÃO, MÁSCARAS, VALIDAÇÕES E QR CODE SVG
+       ========================================================================== */
+    function formatBRL(v) {
+      const n = Number(v) || 0;
+      return n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function todayISO() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function nowDateTime() {
+      const d = new Date();
+      return d.toISOString().slice(0, 10) + ' ' + d.toTimeString().slice(0, 5);
+    }
+
+    function escapeHTML(str) {
+      return String(str ?? '').replace(/[&<>"']/g, s => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[s]));
+    }
+
+    function maskCPF(val) {
+      return val.replace(/\D/g, '').slice(0, 11)
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    }
+
+    function maskPhone(val) {
+      const d = val.replace(/\D/g, '').slice(0, 11);
+      if (d.length <= 10) return d.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3').replace(/-$/, '');
+      return d.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3').replace(/-$/, '');
+    }
+
+    function isValidCPF(cpf) {
+      const d = cpf.replace(/\D/g, '');
+      if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false;
+      return true;
+    }
+
+    function genId(prefix) {
+      return `${prefix}-${Math.floor(1000 + Math.random() * 9000)}`;
+    }
+
+    function getCurrentBimester() {
+      const m = new Date().getMonth();
+      const cycles = ['Janeiro / Fevereiro', 'Janeiro / Fevereiro', 'Março / Abril', 'Março / Abril', 'Maio / Junho', 'Maio / Junho', 'Julho / Agosto', 'Julho / Agosto', 'Setembro / Outubro', 'Setembro / Outubro', 'Novembro / Dezembro', 'Novembro / Dezembro'];
+      return cycles[m];
+    }
+
+    function addNotification(title, body) {
+      state.notifications.unshift({
+        id: genId('NTF'),
+        date: nowDateTime(),
+        title,
+        body,
+        read: false
+      });
+      updateNotificationBadge();
+    }
+
+    function addAuditLog(actor, action) {
+      state.auditLogs.unshift({ date: nowDateTime(), actor, action });
+      if (state.auditLogs.length > 40) state.auditLogs.pop();
+    }
+
+    function showToast(message, type = 'success') {
+      const stack = document.getElementById('toast-stack');
+      const el = document.createElement('div');
+      el.className = `toast ${type}`;
+      const icon = type === 'error' ? '✕' : (type === 'warning' ? '!' : '✓');
+      el.innerHTML = `<strong style="flex-shrink:0;">${icon}</strong><div>${escapeHTML(message)}</div>`;
+      stack.appendChild(el);
+      setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.remove(), 220); }, 3800);
+    }
+
+    // Gerador determinístico de QR Code visual em SVG (sem bibliotecas externas)
+    function buildQRCodeSVG(text, size = 152) {
+      const n = 21;
+      const cell = size / n;
+      let hash = 2166136261;
+      for (let i = 0; i < text.length; i++) {
+        hash ^= text.charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
+      }
+      const rects = [];
+      const inFinder = (r, c) =>
+        (r < 7 && c < 7) || (r < 7 && c >= n - 7) || (r >= n - 7 && c < 7);
+
+      const drawFinder = (r0, c0) => {
+        rects.push(`<rect x="${c0 * cell}" y="${r0 * cell}" width="${7 * cell}" height="${7 * cell}" fill="#0F172A"/>`);
+        rects.push(`<rect x="${(c0 + 1) * cell}" y="${(r0 + 1) * cell}" width="${5 * cell}" height="${5 * cell}" fill="#FFFFFF"/>`);
+        rects.push(`<rect x="${(c0 + 2) * cell}" y="${(r0 + 2) * cell}" width="${3 * cell}" height="${3 * cell}" fill="#0F172A"/>`);
+      };
+      drawFinder(0, 0);
+      drawFinder(0, n - 7);
+      drawFinder(n - 7, 0);
+
+      for (let r = 0; r < n; r++) {
+        for (let c = 0; c < n; c++) {
+          if (inFinder(r, c)) continue;
+          hash ^= (r * 31 + c * 17);
+          hash = Math.imul(hash, 16777619);
+          if ((hash >>> 0) % 11 < 5) {
+            rects.push(`<rect x="${(c * cell).toFixed(2)}" y="${(r * cell).toFixed(2)}" width="${cell.toFixed(2)}" height="${cell.toFixed(2)}" fill="#0F172A"/>`);
+          }
+        }
+      }
+      return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="background:#FFFFFF; padding:10px; border-radius:10px; display:block;" role="img" aria-label="QR Code de indicação">${rects.join('')}</svg>`;
+    }
+
+    /* ==========================================================================
+       MOTOR DE GRÁFICOS SVG INTERATIVOS
+       ========================================================================== */
+    function renderLineChartSVG(containerId, seriesList, labels, valueFormatter = formatBRL) {
+      const el = document.getElementById(containerId);
+      if (!el || !labels.length) return;
+      const W = 680, H = 240, padL = 68, padR = 20, padT = 18, padB = 34;
+      const plotW = W - padL - padR;
+      const plotH = H - padT - padB;
+
+      const allVals = seriesList.flatMap(s => s.data);
+      const minV = Math.min(...allVals) * 0.94;
+      const maxV = Math.max(...allVals, minV + 10) * 1.03;
+
+      const xOf = (i) => padL + (labels.length === 1 ? plotW / 2 : (i / (labels.length - 1)) * plotW);
+      const yOf = (v) => padT + plotH - ((v - minV) / (maxV - minV)) * plotH;
+
+      let gridLines = '';
+      for (let t = 0; t <= 4; t++) {
+        const val = minV + ((maxV - minV) * (4 - t)) / 4;
+        const y = padT + (plotH * t) / 4;
+        gridLines += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="rgba(148,163,184,0.12)" stroke-dasharray="3 3"/>`;
+        gridLines += `<text x="${padL - 8}" y="${y + 4}" text-anchor="end" fill="#64748B" font-size="11" font-family="JetBrains Mono, monospace">${valueFormatter(val).replace(',00', '')}</text>`;
+      }
+
+      const stepX = Math.max(1, Math.ceil(labels.length / 7));
+      let xLabels = '';
+      labels.forEach((lbl, idx) => {
+        if (idx % stepX === 0 || idx === labels.length - 1) {
+          xLabels += `<text x="${xOf(idx)}" y="${H - 10}" text-anchor="middle" fill="#64748B" font-size="11">${escapeHTML(lbl)}</text>`;
+        }
+      });
+
+      let paths = '';
+      seriesList.forEach((s, sIdx) => {
+        const pts = s.data.map((v, i) => `${xOf(i).toFixed(1)},${yOf(v).toFixed(1)}`);
+        if (seriesList.length === 1) {
+          const areaD = `M ${xOf(0).toFixed(1)},${padT + plotH} L ${pts.join(' L ')} L ${xOf(s.data.length - 1).toFixed(1)},${padT + plotH} Z`;
+          paths += `<defs><linearGradient id="grad-${containerId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${s.color}" stop-opacity="0.28"/><stop offset="100%" stop-color="${s.color}" stop-opacity="0"/></linearGradient></defs>`;
+          paths += `<path d="${areaD}" fill="url(#grad-${containerId})"/>`;
+        }
+        paths += `<path d="M ${pts.join(' L ')}" fill="none" stroke="${s.color}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>`;
+        s.data.forEach((v, i) => {
+          paths += `<circle cx="${xOf(i).toFixed(1)}" cy="${yOf(v).toFixed(1)}" r="4" fill="${s.color}" opacity="${s.data.length > 16 ? 0.55 : 0.95}" data-series="${escapeHTML(s.name)}" data-label="${escapeHTML(labels[i])}" data-val="${escapeHTML(valueFormatter(v))}" onmouseenter="showChartTip(event, '${containerId}')" onmouseleave="hideChartTip('${containerId}')" style="cursor:pointer;"/>`;
+        });
+      });
+
+      const legend = seriesList.length > 1
+        ? `<div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:8px; font-size:12.5px; color:var(--text-secondary);">
+            ${seriesList.map(s => `<span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px; height:3px; background:${s.color}; display:inline-block;"></span>${escapeHTML(s.name)}</span>`).join('')}
+          </div>`
+        : '';
+
+      el.innerHTML = `
+        <div style="position:relative;">
+          <svg viewBox="0 0 ${W} ${H}" class="chart-svg" role="img" aria-label="Gráfico financeiro">${gridLines}${xLabels}${paths}</svg>
+          <div id="${containerId}-tip" class="chart-tooltip hidden"></div>
+        </div>
+        ${legend}
+      `;
+    }
+
+    function showChartTip(evt, containerId) {
+      const tip = document.getElementById(`${containerId}-tip`);
+      if (!tip) return;
+      const t = evt.target;
+      tip.innerHTML = `<div style="color:var(--text-secondary);">${t.dataset.label} · ${t.dataset.series}</div><strong class="tabular">${t.dataset.val}</strong>`;
+      tip.classList.remove('hidden');
+      const rect = tip.parentElement.getBoundingClientRect();
+      tip.style.left = Math.min(rect.width - 150, Math.max(8, evt.clientX - rect.left + 10)) + 'px';
+      tip.style.top = Math.max(4, evt.clientY - rect.top - 44) + 'px';
+    }
+
+    function hideChartTip(containerId) {
+      const tip = document.getElementById(`${containerId}-tip`);
+      if (tip) tip.classList.add('hidden');
+    }
+
+    /* ==========================================================================
+       LANDING PAGE, CALCULADORA COMPARTILHADA & MODAIS LEGAIS
+       ========================================================================== */
+    function initLanding() {
+      const pGrid = document.getElementById('landing-products-grid');
+      if (pGrid) {
+        pGrid.innerHTML = state.products.filter(p => p.active).map(p => `
+          <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; gap:16px;">
+            <div>
+              <div style="font-size:12.5px; color:var(--accent-gold); font-weight:600; margin-bottom:6px;">
+                ${escapeHTML(p.category)} · Risco ${escapeHTML(p.riskLevel)}
+              </div>
+              <h3 style="font-size:20px; margin-bottom:8px;">${escapeHTML(p.name)}</h3>
+              <p style="font-size:14px; color:var(--text-secondary); margin-bottom:14px;">${escapeHTML(p.description)}</p>
+              <div style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; font-size:13px; border-top:1px solid var(--border-hairline); padding-top:12px;">
+                <div><span style="color:var(--text-muted);">Mínimo:</span> <strong class="tabular">${formatBRL(p.minAmount)}</strong></div>
+                <div><span style="color:var(--text-muted);">Prazo:</span> <strong>${escapeHTML(p.termLabel)}</strong></div>
+                <div><span style="color:var(--text-muted);">Taxa adm.:</span> <strong class="tabular">${p.feePercent.toFixed(2)}%</strong></div>
+                <div><span style="color:var(--text-muted);">Est. matemática:</span> <strong class="tabular" style="color:var(--positive);">~${p.estimatedMonthlyRate.toFixed(2)}% a.m.</strong></div>
+              </div>
+              <div style="margin-top:10px; font-size:12.5px; color:var(--text-muted);">Instituição: ${escapeHTML(p.institution)}</div>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="openProductDetails('${p.id}')">Ver Detalhes</button>
+              <button type="button" class="btn btn-primary btn-sm" onclick="quickInvestFromLanding('${p.id}')">Investir</button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      const faqs = [
+        { q: 'Como funciona o Modo Demonstração?', a: 'Todos os saldos, aportes, rendimentos e saques exibidos inicialmente são fictícios para teste de experiência. Antes de operar dinheiro real, a plataforma exige integração com backend seguro e instituições financeiras autorizadas.' },
+        { q: 'Qual o valor mínimo para começar?', a: 'Os aportes demonstrativos começam em R$ 20,00 no Plano Flexível, permitindo escolher valores rápidos ou digitar qualquer quantia acima do mínimo do produto.' },
+        { q: 'Os rendimentos são garantidos?', a: 'Não. Investimentos envolvem riscos de mercado, crédito e liquidez. A calculadora e as taxas estimadas representam projeções matemáticas educativas, nunca promessa de ganho fixo.' },
+        { q: 'Como funciona o calendário de saques?', a: 'Os saques são organizados em ciclos bimestrais (Jan/Fev, Mar/Abr, Mai/Jun, Jul/Ago, Set/Out e Nov/Dez), conforme liquidez e prazo do produto escolhido.' },
+        { q: 'O programa de indicação é pirâmide financeira?', a: 'Não. Os bônus promocionais são limitados, transparentes, com teto por usuário e pagos exclusivamente a partir do orçamento comercial da plataforma, sem comissões multiníveis nem uso de depósitos de novos usuários.' }
+      ];
+      const faqEl = document.getElementById('landing-faq-list');
+      if (faqEl) {
+        faqEl.innerHTML = faqs.map((f, idx) => `
+          <div class="faq-item ${idx === 0 ? 'open' : ''}">
+            <button type="button" class="faq-trigger" onclick="this.parentElement.classList.toggle('open')">
+              <span>${escapeHTML(f.q)}</span>
+              <span aria-hidden="true">+</span>
+            </button>
+            <div class="faq-body">${escapeHTML(f.a)}</div>
+          </div>
+        `).join('');
+      }
+
+      mountCalculator('landing-calculator-mount', 'land');
+    }
+
+    function computeProjection(initial, monthly, months, monthlyRatePct) {
+      const r = monthlyRatePct / 100;
+      const points = [];
+      let bal = initial;
+      let invested = initial;
+      for (let m = 0; m <= months; m++) {
+        if (m > 0) {
+          bal = bal * (1 + r) + monthly;
+          invested += monthly;
+        }
+        points.push({ month: m, balance: bal, invested });
+      }
+      return points;
+    }
+
+    function mountCalculator(containerId, prefix) {
+      const root = document.getElementById(containerId);
+      if (!root) return;
+      root.innerHTML = `
+        <div class="card">
+          <div class="grid-2" style="gap:28px; align-items:start;">
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <div class="grid-2" style="gap:12px;">
+                <div class="field">
+                  <label for="${prefix}-calc-init">Valor Inicial (R$)</label>
+                  <input id="${prefix}-calc-init" class="input tabular" type="number" min="20" step="10" value="500" oninput="updateCalculator('${prefix}')" />
+                </div>
+                <div class="field">
+                  <label for="${prefix}-calc-month">Aporte Mensal (R$)</label>
+                  <input id="${prefix}-calc-month" class="input tabular" type="number" min="0" step="10" value="200" oninput="updateCalculator('${prefix}')" />
+                </div>
+              </div>
+              <div class="grid-2" style="gap:12px;">
+                <div class="field">
+                  <label for="${prefix}-calc-period">Período (meses)</label>
+                  <input id="${prefix}-calc-period" class="input tabular" type="number" min="1" max="120" value="12" oninput="updateCalculator('${prefix}')" />
+                </div>
+                <div class="field">
+                  <label for="${prefix}-calc-rate">Taxa Estimada (% ao mês)</label>
+                  <input id="${prefix}-calc-rate" class="input tabular" type="number" min="0.1" max="5" step="0.05" value="0.95" oninput="updateCalculator('${prefix}')" />
+                </div>
+              </div>
+
+              <div class="grid-3" style="gap:10px; margin-top:4px;">
+                <div style="padding:12px; background:var(--bg-input); border:1px solid var(--border-hairline); border-radius:10px;">
+                  <div style="font-size:12px; color:var(--text-secondary);">Capital Investido</div>
+                  <div id="${prefix}-res-invested" class="tabular" style="font-size:16px; font-weight:700; margin-top:3px;">—</div>
+                </div>
+                <div style="padding:12px; background:var(--bg-input); border:1px solid var(--border-hairline); border-radius:10px;">
+                  <div style="font-size:12px; color:var(--text-secondary);">Rendimento Projetado</div>
+                  <div id="${prefix}-res-yield" class="tabular" style="font-size:16px; font-weight:700; color:var(--positive); margin-top:3px;">—</div>
+                </div>
+                <div style="padding:12px; background:var(--bg-input); border:1px solid var(--border-hairline); border-radius:10px;">
+                  <div style="font-size:12px; color:var(--text-secondary);">Saldo Estimado</div>
+                  <div id="${prefix}-res-total" class="tabular" style="font-size:16px; font-weight:700; color:var(--accent-gold); margin-top:3px;">—</div>
+                </div>
+              </div>
+
+              <div class="table-wrap" style="margin-top:4px;">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Cenário</th>
+                      <th class="text-right">Taxa Mensal</th>
+                      <th class="text-right">Saldo Estimado</th>
+                      <th class="text-right">Rendimento</th>
+                    </tr>
+                  </thead>
+                  <tbody id="${prefix}-scenarios-body"></tbody>
+                </table>
+              </div>
+
+              <div class="notice-box gold">
+                Os resultados apresentados são estimativas matemáticas e não representam garantia de retorno financeiro. Investimentos podem apresentar riscos e perdas.
+              </div>
+            </div>
+
+            <div>
+              <div style="font-size:14px; font-weight:600; margin-bottom:10px;">Projeção comparativa de cenários</div>
+              <div id="${prefix}-calc-chart" class="chart-box"></div>
+            </div>
+          </div>
+        </div>
+      `;
+      updateCalculator(prefix);
+    }
+
+    function updateCalculator(prefix) {
+      const initial = Math.max(0, Number(document.getElementById(`${prefix}-calc-init`)?.value) || 0);
+      const monthly = Math.max(0, Number(document.getElementById(`${prefix}-calc-month`)?.value) || 0);
+      const months = Math.min(120, Math.max(1, parseInt(document.getElementById(`${prefix}-calc-period`)?.value || '12', 10)));
+      const baseRate = Math.max(0.05, Number(document.getElementById(`${prefix}-calc-rate`)?.value) || 0.95);
+
+      const consRate = Math.max(0.2, +(baseRate * 0.7).toFixed(2));
+      const modRate = +baseRate.toFixed(2);
+      const optRate = +(baseRate * 1.3).toFixed(2);
+
+      const sCons = computeProjection(initial, monthly, months, consRate);
+      const sMod = computeProjection(initial, monthly, months, modRate);
+      const sOpt = computeProjection(initial, monthly, months, optRate);
+
+      const lastMod = sMod[sMod.length - 1];
+      const modYield = lastMod.balance - lastMod.invested;
+
+      document.getElementById(`${prefix}-res-invested`).textContent = formatBRL(lastMod.invested);
+      document.getElementById(`${prefix}-res-yield`).textContent = formatBRL(modYield);
+      document.getElementById(`${prefix}-res-total`).textContent = formatBRL(lastMod.balance);
+
+      const rows = [
+        { name: 'CONSERVADOR', rate: consRate, end: sCons[sCons.length - 1] },
+        { name: 'MODERADO', rate: modRate, end: lastMod },
+        { name: 'OTIMISTA', rate: optRate, end: sOpt[sOpt.length - 1] }
+      ];
+      document.getElementById(`${prefix}-scenarios-body`).innerHTML = rows.map(r => `
+        <tr>
+          <td><strong>${r.name}</strong></td>
+          <td class="text-right tabular">${r.rate.toFixed(2)}%</td>
+          <td class="text-right tabular">${formatBRL(r.end.balance)}</td>
+          <td class="text-right tabular" style="color:var(--positive);">${formatBRL(r.end.balance - r.end.invested)}</td>
+        </tr>
+      `).join('');
+
+      const labels = sMod.map(p => `M${p.month}`);
+      renderLineChartSVG(`${prefix}-calc-chart`, [
+        { name: 'Conservador', color: '#60A5FA', data: sCons.map(p => p.balance) },
+        { name: 'Moderado', color: '#10B981', data: sMod.map(p => p.balance) },
+        { name: 'Otimista', color: '#D4AF37', data: sOpt.map(p => p.balance) }
+      ], labels);
+    }
+
+    /* ==========================================================================
+       AUTENTICAÇÃO, NAVEGAÇÃO & CONTROLE DE DEMONSTRAÇÃO
+       ========================================================================== */
+    function openAuthModal(tab = 'login') {
+      document.getElementById('auth-modal').classList.remove('hidden');
+      switchAuthTab(tab);
+      const urlRef = new URLSearchParams(window.location.search).get('ref');
+      if (urlRef && document.getElementById('reg-ref')) {
+        document.getElementById('reg-ref').value = urlRef;
+      }
+    }
+
+    function closeAuthModal() {
+      document.getElementById('auth-modal').classList.add('hidden');
+    }
+
+    function switchAuthTab(tab) {
+      ['login', 'register', 'recover'].forEach(t => {
+        document.getElementById(`tab-auth-${t}`).classList.toggle('active', t === tab);
+        document.getElementById(`form-${t}`).classList.toggle('hidden', t !== tab);
+      });
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      if (!email) return;
+      state.authenticated = true;
+      state.activeRole = email.toLowerCase().includes('admin') ? 'admin' : 'user';
+      if (!state.user.email) state.user.email = email;
+      saveDemoState();
+      closeAuthModal();
+      enterAppShell();
+      showToast('Acesso demonstrativo realizado com sucesso.');
+    }
+
+    function handleRegisterSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('reg-name').value.trim();
+      const cpf = document.getElementById('reg-cpf').value.trim();
+      const phone = document.getElementById('reg-phone').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const p1 = document.getElementById('reg-pass').value;
+      const p2 = document.getElementById('reg-pass2').value;
+      const ref = document.getElementById('reg-ref').value.trim();
+
+      if (!isValidCPF(cpf)) {
+        showToast('Informe um CPF válido no formato 000.000.000-00.', 'error');
+        return;
+      }
+      if (p1 !== p2) {
+        showToast('A confirmação de senha não confere.', 'error');
+        return;
+      }
+
+      state.user.name = name;
+      state.user.cpf = cpf;
+      state.user.phone = phone;
+      state.user.email = email;
+      state.user.referralCode = (name.split(' ')[0] || 'LUCRO').toUpperCase().replace(/[^A-Z]/g, '').slice(0, 7) + '26';
+      state.authenticated = true;
+      state.activeRole = 'user';
+      addNotification('Conta demonstrativa criada', `Bem-vindo(a), ${name}. Seu código de indicação é ${state.user.referralCode}.${ref ? ' Indicação vinculada: ' + ref : ''}`);
+      addAuditLog(state.user.id, 'Cadastro demonstrativo criado (senha não armazenada localmente).');
+      saveDemoState();
+      closeAuthModal();
+      enterAppShell();
+      showToast('Conta demonstrativa criada com sucesso!');
+    }
+
+    function handleRecoverSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('rec-email').value.trim();
+      showToast(`Instruções demonstrativas de recuperação enviadas para ${email}.`, 'success');
+      switchAuthTab('login');
+    }
+
+    function enterDemoWorkspace(role = 'user') {
+      state.authenticated = true;
+      state.activeRole = role;
+      state.currentView = role === 'admin' ? 'admin' : 'dashboard';
+      saveDemoState();
+      closeAuthModal();
+      enterAppShell();
+      showToast(role === 'admin' ? 'Entrou como Administrador Demonstrativo.' : 'Modo Demonstração ativo.');
+    }
+
+    function enterAppShell() {
+      document.getElementById('landing-view').classList.add('hidden');
+      document.getElementById('app-shell').classList.remove('hidden');
+      renderSidebar();
+      updateDemoRoleUI();
+      updateNotificationBadge();
+      navigateTo(state.currentView || 'dashboard');
+    }
+
+    function backToLanding() {
+      document.getElementById('app-shell').classList.add('hidden');
+      document.getElementById('landing-view').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function logoutUser() {
+      state.authenticated = false;
+      saveDemoState();
+      backToLanding();
+      showToast('Sessão demonstrativa encerrada.');
+    }
+
+    function toggleDemoRole() {
+      state.activeRole = state.activeRole === 'admin' ? 'user' : 'admin';
+      if (state.activeRole === 'user' && state.currentView === 'admin') {
+        state.currentView = 'dashboard';
+      } else if (state.activeRole === 'admin') {
+        state.currentView = 'admin';
+      }
+      saveDemoState();
+      renderSidebar();
+      updateDemoRoleUI();
+      navigateTo(state.currentView);
+    }
+
+    function updateDemoRoleUI() {
+      const lbl = document.getElementById('role-switch-label');
+      if (lbl) lbl.textContent = state.activeRole === 'admin' ? 'Ir para Investidor' : 'Ir para Admin';
+      const uName = document.getElementById('sidebar-user-name');
+      if (uName) uName.textContent = state.activeRole === 'admin' ? 'Administrador Demo' : state.user.name;
+    }
+
+    function restoreDemoData() {
+      const fresh = createInitialDemoState();
+      fresh.authenticated = true;
+      fresh.activeRole = state.activeRole;
+      fresh.currentView = state.currentView;
+      state = fresh;
+      saveDemoState();
+      renderSidebar();
+      updateNotificationBadge();
+      navigateTo(state.currentView);
+      showToast('Dados demonstrativos restaurados para o estado padrão.');
+    }
+
+    function zeroDemoData() {
+      state.balances = {
+        totalDeposits: 0, totalInvested: 0, accumulatedYields: 0,
+        availableYields: 0, reinvestedYields: 0, referralBonusAvailable: 0,
+        referralBonusReceived: 0, totalWithdrawn: 0, availableForWithdrawal: 0
+      };
+      state.investments = [];
+      state.yieldHistory = [];
+      state.referrals = [];
+      state.withdrawals = [];
+      state.transactions = [];
+      state.notifications = [{ id: genId('NTF'), date: nowDateTime(), title: 'Ambiente zerado', body: 'Todos os saldos e históricos demonstrativos foram zerados para teste do zero.', read: false }];
+      saveDemoState();
+      updateNotificationBadge();
+      navigateTo(state.currentView);
+      showToast('Dados demonstrativos zerados.', 'warning');
+    }
+
+    function toggleSidebar(force) {
+      const sb = document.getElementById('sidebar');
+      if (typeof force === 'boolean') sb.classList.toggle('open', force);
+      else sb.classList.toggle('open');
+    }
+
+    const NAV_ITEMS = [
+      { id: 'dashboard', label: 'Dashboard', icon: '<rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>' },
+      { id: 'investimentos', label: 'Meus Investimentos', icon: '<path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>' },
+      { id: 'oportunidades', label: 'Oportunidades', icon: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>' },
+      { id: 'rendimentos', label: 'Meus Rendimentos', icon: '<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>' },
+      { id: 'calculadora', label: 'Calculadora', icon: '<rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="10" y2="16"/><line x1="14" y1="16" x2="16" y2="16"/>' },
+      { id: 'indicacoes', label: 'Minhas Indicações', icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+      { id: 'saques', label: 'Solicitar Saque', icon: '<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>' },
+      { id: 'movimentacoes', label: 'Minhas Movimentações', icon: '<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>' },
+      { id: 'conta', label: 'Minha Conta', icon: '<circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>' },
+      { id: 'suporte', label: 'Suporte', icon: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>' }
+    ];
+
+    function renderSidebar() {
+      const nav = document.getElementById('sidebar-nav');
+      if (!nav) return;
+      const items = [...NAV_ITEMS];
+      if (state.activeRole === 'admin') {
+        items.push({
+          id: 'admin',
+          label: 'Painel Administrativo',
+          admin: true,
+          icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'
+        });
+      }
+      nav.innerHTML = items.map(it => `
+        <button type="button" class="nav-btn ${it.admin ? 'admin-item' : ''} ${state.currentView === it.id ? 'active' : ''}" onclick="navigateTo('${it.id}')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${it.icon}</svg>
+          <span>${it.label}</span>
+        </button>
+      `).join('');
+    }
+
+    function updateNotificationBadge() {
+      const unread = state.notifications.filter(n => !n.read).length;
+      const badge = document.getElementById('notif-badge');
+      if (!badge) return;
+      badge.textContent = unread;
+      badge.classList.toggle('hidden', unread === 0);
+    }
+
+    function toggleNotifications() {
+      const panel = document.getElementById('notif-panel');
+      const isHidden = panel.classList.contains('hidden');
+      if (isHidden) {
+        renderNotificationsPanel();
+        panel.classList.remove('hidden');
+      } else {
+        panel.classList.add('hidden');
+      }
+    }
+
+    function renderNotificationsPanel() {
+      const panel = document.getElementById('notif-panel');
+      panel.innerHTML = `
+        <div style="padding:12px 16px; border-bottom:1px solid var(--border-hairline); display:flex; justify-content:space-between; align-items:center;">
+          <strong style="font-size:14px;">Central de Notificações</strong>
+          <button type="button" class="btn btn-ghost btn-sm" onclick="markAllNotificationsRead()">Marcar lidas</button>
+        </div>
+        <div>
+          ${state.notifications.length ? state.notifications.slice(0, 12).map(n => `
+            <div class="notif-item ${n.read ? '' : 'unread'}" onclick="markNotificationRead('${n.id}')">
+              <div style="display:flex; justify-content:space-between; gap:8px; font-size:13px;">
+                <strong>${escapeHTML(n.title)}</strong>
+                <span style="font-size:11px; color:var(--text-muted);">${escapeHTML(n.date)}</span>
+              </div>
+              <p style="font-size:12.5px; color:var(--text-secondary); margin-top:4px;">${escapeHTML(n.body)}</p>
+            </div>
+          `).join('') : '<div style="padding:20px; text-align:center; color:var(--text-secondary); font-size:13px;">Nenhuma notificação.</div>'}
+        </div>
+      `;
+    }
+
+    function markNotificationRead(id) {
+      const n = state.notifications.find(x => x.id === id);
+      if (n) n.read = true;
+      saveDemoState();
+      updateNotificationBadge();
+      renderNotificationsPanel();
+    }
+
+    function markAllNotificationsRead() {
+      state.notifications.forEach(n => n.read = true);
+      saveDemoState();
+      updateNotificationBadge();
+      renderNotificationsPanel();
+    }
+
+    function openModal(html, wide = false) {
+      const bd = document.getElementById('generic-modal');
+      const box = document.getElementById('generic-modal-box');
+      box.className = wide ? 'modal-box wide' : 'modal-box';
+      box.innerHTML = html;
+      bd.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('generic-modal').classList.add('hidden');
+    }
+
+    function openLegalModal(type) {
+      const docs = {
+        terms: {
+          title: 'Termos de Uso — LUCRO DIGITAL',
+          body: '<p><strong>1. Natureza Demonstrativa:</strong> A versão atual opera exclusivamente em modo demonstrativo para simulação de interface e fluxos. Nenhuma transação financeira real é liquidada pelo navegador.</p><p><strong>2. Transparência e Riscos:</strong> Produtos financeiros reais só podem ser ofertados após contratação de infraestrutura autorizada perante Banco Central / CVM, com exibição prévia de taxas, prazos e riscos.</p><p><strong>3. Proibição de Práticas Irregulares:</strong> A plataforma veda promessas de ganhos garantidos, estruturas de recrutamento em cadeia (pirâmides) e pagamento de rendimentos com recursos de terceiros.</p>'
+        },
+        privacy: {
+          title: 'Política de Privacidade (LGPD)',
+          body: '<p><strong>1. Tratamento de Dados:</strong> Dados cadastrais como nome, CPF, e-mail e telefone destinam-se exclusivamente à identificação, prevenção à fraude, KYC e cumprimento de obrigações regulatórias.</p><p><strong>2. Segurança:</strong> Em produção, senhas utilizam hash criptográfico no servidor, comunicações trafegam via HTTPS/TLS e registros financeiros residem em banco relacional protegido.</p><p><strong>3. Direitos do Titular:</strong> O usuário pode solicitar atualização, portabilidade ou encerramento de conta conforme a Lei nº 13.709/2018.</p>'
+        },
+        risks: {
+          title: 'Política de Transparência e Riscos',
+          body: '<p><strong>1. Risco de Mercado e Crédito:</strong> Todo investimento possui grau de risco variável conforme o emissor, prazo e condições macroeconômicas.</p><p><strong>2. Liquidez:</strong> Resgates obedecem às janelas bimestrais e prazos do produto selecionado.</p><p><strong>3. Educação Financeira:</strong> Nunca aloque reservas de emergência ou recursos que você não possa manter investidos pelo prazo informado.</p>'
+        }
+      };
+      const doc = docs[type] || docs.terms;
+      openModal(`
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <h2 style="font-size:20px;">${doc.title}</h2>
+          <button type="button" class="btn btn-ghost btn-sm" onclick="closeModal()">Fechar</button>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:12px; font-size:14px; color:var(--text-secondary); line-height:1.6;">
+          ${doc.body}
+        </div>
+        <div style="margin-top:20px; text-align:right;">
+          <button type="button" class="btn btn-primary btn-sm" onclick="closeModal()">Entendido</button>
+        </div>
+      `);
+    }
+
+    function openProductDetails(productId) {
+      const p = state.products.find(x => x.id === productId);
+      if (!p) return;
+      openModal(`
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:14px;">
+          <div>
+            <div style="font-size:12px; color:var(--accent-gold); font-weight:600;">${escapeHTML(p.category)}</div>
+            <h2 style="font-size:22px; margin-top:2px;">${escapeHTML(p.name)}</h2>
+          </div>
+          <button type="button" class="btn btn-ghost btn-sm" onclick="closeModal()">Fechar</button>
+        </div>
+        <p style="font-size:14px; color:var(--text-secondary); margin-bottom:16px;">${escapeHTML(p.description)}</p>
+        <div class="grid-2" style="gap:12px; margin-bottom:16px;">
+          <div style="padding:12px; background:var(--bg-input); border-radius:8px; border:1px solid var(--border-hairline);">
+            <div style="font-size:12px; color:var(--text-muted);">Valor Mínimo</div>
+            <strong class="tabular">${formatBRL(p.minAmount)}</strong>
+          </div>
+          <div style="padding:12px; background:var(--bg-input); border-radius:8px; border:1px solid var(--border-hairline);">
+            <div style="font-size:12px; color:var(--text-muted);">Prazo / Liquidez</div>
+            <strong>${escapeHTML(p.termLabel)}</strong>
+          </div>
+          <div style="padding:12px; background:var(--bg-input); border-radius:8px; border:1px solid var(--border-hairline);">
+            <div style="font-size:12px; color:var(--text-muted);">Taxa Administrativa</div>
+            <strong class="tabular">${p.feePercent.toFixed(2)}%</strong>
+          </div>
+          <div style="padding:12px; background:var(--bg-input); border-radius:8px; border:1px solid var(--border-hairline);">
+            <div style="font-size:12px; color:var(--text-muted);">Nível de Risco</div>
+            <strong>${escapeHTML(p.riskLevel)}</strong>
+          </div>
+        </div>
+        <div class="notice-box" style="margin-bottom:16px;">
+          <div><strong>Instituição responsável:</strong> ${escapeHTML(p.institution)}</div>
+          <div style="margin-top:6px;"><strong>Regras:</strong> ${escapeHTML(p.rules)}</div>
+          <div style="margin-top:6px;"><strong>Estimativa matemática de referência:</strong> ~${p.estimatedMonthlyRate.toFixed(2)}% ao mês (não representa garantia de retorno).</div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:10px;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal()">Fechar</button>
+          <button type="button" class="btn btn-primary btn-sm" onclick="closeModal(); quickInvestFromLanding('${p.id}')">Investir neste Produto</button>
+        </div>
+      `);
+    }
+
+    function quickInvestFromLanding(productId) {
+      state.selectedProductForAporte = productId;
+      state.authenticated = true;
+      state.currentView = 'investimentos';
+      saveDemoState();
+      enterAppShell();
+    }
+
+    function downloadStandaloneHtml() {
+      const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'LUCRO_DIGITAL.html';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Arquivo LUCRO_DIGITAL.html baixado.');
+    }
+
+    /* ==========================================================================
+       ROTEADOR DE TELAS DO PAINEL
+       ========================================================================== */
+    const VIEW_META = {
+      dashboard: { title: 'Dashboard', sub: 'Visão consolidada do patrimônio demonstrativo' },
+      investimentos: { title: 'Meus Investimentos', sub: 'Realize aportes simulados a partir de R$ 20,00' },
+      oportunidades: { title: 'Oportunidades de Investimento', sub: 'Produtos financeiros transparentes e configuráveis' },
+      rendimentos: { title: 'Meus Rendimentos', sub: 'Apurações registradas e reinvestimento autorizado' },
+      calculadora: { title: 'Calculadora de Investimentos', sub: 'Simulações matemáticas comparativas entre cenários' },
+      indicacoes: { title: 'Minhas Indicações', sub: 'Programa promocional transparente sem estrutura em cadeia' },
+      saques: { title: 'Solicitar Saque', sub: 'Calendário bimestral de retiradas e histórico de pedidos' },
+      movimentacoes: { title: 'Minhas Movimentações', sub: 'Extrato completo com filtros e exportação CSV / PDF' },
+      conta: { title: 'Minha Conta', sub: 'Dados cadastrais, preferências, documentos legais e segurança' },
+      suporte: { title: 'Central de Atendimento', sub: 'FAQ, canais diretos e histórico de solicitações' },
+      admin: { title: 'Painel Administrativo', sub: 'Gestão protegida de usuários, produtos, saques e campanhas' }
+    };
+
+    function navigateTo(view) {
+      if (view === 'admin' && state.activeRole !== 'admin') {
+        view = 'dashboard';
+      }
+      state.currentView = view;
+      saveDemoState();
+      toggleSidebar(false);
+      renderSidebar();
+
+      const meta = VIEW_META[view] || VIEW_META.dashboard;
+      document.getElementById('page-title').textContent = meta.title;
+      document.getElementById('page-subtitle').textContent = meta.sub;
+
+      const root = document.getElementById('app-content');
+      const map = {
+        dashboard: renderDashboard,
+        investimentos: renderInvestimentos,
+        oportunidades: renderOportunidades,
+        rendimentos: renderRendimentos,
+        calculadora: renderCalculadoraView,
+        indicacoes: renderIndicacoes,
+        saques: renderSaques,
+        movimentacoes: renderMovimentacoes,
+        conta: renderConta,
+        suporte: renderSuporte,
+        admin: renderAdmin
+      };
+      (map[view] || renderDashboard)(root);
+    }
+
+    /* ==========================================================================
+       1. DASHBOARD PRINCIPAL
+       ========================================================================== */
+    function renderDashboard(root) {
+      const b = state.balances;
+      const totalBalance = b.totalInvested + b.availableYields + b.referralBonusAvailable;
+      const lastTxn = state.transactions[0];
+      const nextBimester = getCurrentBimester();
+
+      root.innerHTML = `
+        <div class="grid-6">
+          <div class="kpi-card">
+            <div class="kpi-label">SALDO TOTAL</div>
+            <div class="kpi-value tabular">${formatBRL(totalBalance)}</div>
+            <div class="kpi-meta">Capital alocado + saldos disponíveis</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">VALOR INVESTIDO</div>
+            <div class="kpi-value tabular">${formatBRL(b.totalInvested)}</div>
+            <div class="kpi-meta">${state.investments.length} aportes ativos</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">RENDIMENTOS ACUMULADOS</div>
+            <div class="kpi-value tabular" style="color:var(--positive);">${formatBRL(b.accumulatedYields)}</div>
+            <div class="kpi-meta">Disponíveis: ${formatBRL(b.availableYields)}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">VALOR DISPONÍVEL PARA SAQUE</div>
+            <div class="kpi-value tabular" style="color:var(--accent-gold);">${formatBRL(b.availableForWithdrawal)}</div>
+            <div class="kpi-meta">Ciclo vigente: ${nextBimester}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">TOTAL DE INDICAÇÕES</div>
+            <div class="kpi-value tabular">${state.referrals.length}</div>
+            <div class="kpi-meta">${state.referrals.filter(r => r.status === 'Ativo').length} convidados ativos</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">BÔNUS DE INDICAÇÃO</div>
+            <div class="kpi-value tabular" style="color:var(--positive);">${formatBRL(b.referralBonusReceived)}</div>
+            <div class="kpi-meta">Disponível: ${formatBRL(b.referralBonusAvailable)}</div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="grid-template-columns:minmax(0, 1.55fr) minmax(0, 1fr); align-items:start;">
+          <div class="card">
+            <div class="card-header" style="flex-wrap:wrap;">
+              <div>
+                <div class="card-title">Evolução Financeira</div>
+                <div class="card-subtitle">Acompanhamento demonstrativo por período</div>
+              </div>
+              <div class="segmented" role="tablist" aria-label="Período do gráfico">
+                ${['diario', 'semanal', 'mensal', 'anual'].map(r => `
+                  <button type="button" class="${state.chartRange === r ? 'active' : ''}" onclick="setDashboardChartRange('${r}')">
+                    ${r === 'diario' ? 'Diário' : r === 'semanal' ? 'Semanal' : r === 'mensal' ? 'Mensal' : 'Anual'}
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+            <div id="dashboard-evolution-chart" class="chart-box"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">RESUMO DA MINHA CONTA</div>
+                <div class="card-subtitle">Situação cadastral e movimentações</div>
+              </div>
+              <span class="state-text state-positive">● ${escapeHTML(state.user.status)}</span>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:12px; font-size:14px;">
+              <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-hairline); padding-bottom:9px;">
+                <span style="color:var(--text-secondary);">Total de depósitos</span>
+                <strong class="tabular">${formatBRL(b.totalDeposits)}</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-hairline); padding-bottom:9px;">
+                <span style="color:var(--text-secondary);">Total de retiradas</span>
+                <strong class="tabular">${formatBRL(b.totalWithdrawn)}</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-hairline); padding-bottom:9px;">
+                <span style="color:var(--text-secondary);">Rendimentos acumulados</span>
+                <strong class="tabular" style="color:var(--positive);">${formatBRL(b.accumulatedYields)}</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-hairline); padding-bottom:9px;">
+                <span style="color:var(--text-secondary);">Saldo atual consolidado</span>
+                <strong class="tabular">${formatBRL(totalBalance)}</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-hairline); padding-bottom:9px;">
+                <span style="color:var(--text-secondary);">Última movimentação</span>
+                <strong style="text-align:right;">${lastTxn ? `${escapeHTML(lastTxn.type)} (${formatBRL(Math.abs(lastTxn.amount))})` : 'Nenhuma'}</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-hairline); padding-bottom:9px;">
+                <span style="color:var(--text-secondary);">Próxima janela de saque</span>
+                <strong>${nextBimester}</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span style="color:var(--text-secondary);">Situação da conta</span>
+                <strong style="color:var(--positive);">${state.user.kycVerified ? 'Identidade Verificada' : 'Verificação Pendente'}</strong>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-primary btn-sm" style="flex:1;" onclick="navigateTo('investimentos')">Novo Aporte</button>
+              <button type="button" class="btn btn-secondary btn-sm" style="flex:1;" onclick="navigateTo('saques')">Solicitar Saque</button>
+            </div>
+          </div>
+        </div>
+      `;
+      drawDashboardChart();
+    }
+
+    function setDashboardChartRange(range) {
+      state.chartRange = range;
+      saveDemoState();
+      renderDashboard(document.getElementById('app-content'));
+    }
+
+    function drawDashboardChart() {
+      const b = state.balances;
+      const base = Math.max(100, b.totalInvested + b.availableYields);
+      const presets = {
+        diario: {
+          labels: ['16/11', '17/11', '18/11', '19/11', '20/11', '21/11', '22/11'],
+          factors: [0.972, 0.978, 0.983, 0.985, 0.991, 0.996, 1.0]
+        },
+        semanal: {
+          labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Sem 5', 'Sem 6', 'Sem 7', 'Sem 8'],
+          factors: [0.88, 0.90, 0.915, 0.935, 0.95, 0.97, 0.988, 1.0]
+        },
+        mensal: {
+          labels: ['Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov'],
+          factors: [0.25, 0.48, 0.69, 0.81, 0.93, 1.0]
+        },
+        anual: {
+          labels: ['2022', '2023', '2024', '2025', '2026'],
+          factors: [0.35, 0.52, 0.71, 0.88, 1.0]
+        }
+      };
+      const cfg = presets[state.chartRange] || presets.mensal;
+      const vals = cfg.factors.map(f => +(base * f).toFixed(2));
+      renderLineChartSVG('dashboard-evolution-chart', [
+        { name: 'Patrimônio Demo', color: '#10B981', data: vals }
+      ], cfg.labels);
+    }
+
+    /* ==========================================================================
+       2. SISTEMA DE APORTES (MEUS INVESTIMENTOS)
+       ========================================================================== */
+    const QUICK_AMOUNTS = [20, 50, 100, 200, 500, 1000, 2000, 5000];
+
+    function renderInvestimentos(root) {
+      const activeProducts = state.products.filter(p => p.active);
+      const selectedId = state.selectedProductForAporte || (activeProducts[0] && activeProducts[0].id) || '';
+      const selectedProd = activeProducts.find(p => p.id === selectedId) || activeProducts[0];
+
+      root.innerHTML = `
+        <div class="grid-2" style="align-items:start;">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Novo Aporte (Simulado / Pronto para Provedor)</div>
+                <div class="card-subtitle">Valor mínimo da plataforma: R$ 20,00</div>
+              </div>
+            </div>
+
+            <form id="aporte-form" onsubmit="previewAporteConfirmation(event)" style="display:flex; flex-direction:column; gap:16px;">
+              <div class="field">
+                <label for="aporte-product">Produto Financeiro</label>
+                <select id="aporte-product" class="select" onchange="onAporteProductChange()">
+                  ${activeProducts.map(p => `<option value="${p.id}" ${p.id === selectedId ? 'selected' : ''}>${escapeHTML(p.name)} — Mín. ${formatBRL(p.minAmount)} (${escapeHTML(p.termLabel)})</option>`).join('')}
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Escolha rápida de valor</label>
+                <div class="amount-grid">
+                  ${QUICK_AMOUNTS.map(v => `<button type="button" class="amount-chip ${v === 100 ? 'active' : ''}" onclick="selectAporteQuickAmount(${v}, this)">${formatBRL(v)}</button>`).join('')}
+                </div>
+              </div>
+
+              <div class="grid-2" style="gap:12px;">
+                <div class="field">
+                  <label for="aporte-amount">Valor personalizado (R$)</label>
+                  <input id="aporte-amount" class="input tabular" type="number" min="20" step="0.01" value="100" required />
+                </div>
+                <div class="field">
+                  <label for="aporte-method">Meio de Pagamento</label>
+                  <select id="aporte-method" class="select">
+                    <option value="PIX Simulado">PIX (Liquidação instantânea em produção)</option>
+                    <option value="Saldo Disponível">Saldo Disponível em Conta</option>
+                    <option value="TED Bancária">Transferência Bancária (TED)</option>
+                  </select>
+                </div>
+              </div>
+
+              ${selectedProd ? `
+                <div id="aporte-prod-hint" class="notice-box" style="font-size:13px;">
+                  <strong>${escapeHTML(selectedProd.name)}:</strong> Taxa ${selectedProd.feePercent.toFixed(2)}% · Prazo ${escapeHTML(selectedProd.termLabel)} · Risco ${escapeHTML(selectedProd.riskLevel)} · Instituição: ${escapeHTML(selectedProd.institution)}.
+                </div>
+              ` : ''}
+
+              <button type="submit" class="btn btn-primary" style="width:100%;">REALIZAR APORTE</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Resumo de Aportes Ativos</div>
+                <div class="card-subtitle">Total alocado: ${formatBRL(state.balances.totalInvested)}</div>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID / Data</th>
+                    <th>Produto</th>
+                    <th class="text-right">Valor</th>
+                    <th class="text-right">Taxa</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${state.investments.length ? state.investments.map(inv => `
+                    <tr>
+                      <td><div class="tabular" style="font-weight:600;">${escapeHTML(inv.id)}</div><div style="font-size:12px; color:var(--text-muted);">${escapeHTML(inv.date)}</div></td>
+                      <td><div>${escapeHTML(inv.productName)}</div><div style="font-size:12px; color:var(--text-muted);">Prazo: ${escapeHTML(inv.term)}</div></td>
+                      <td class="text-right tabular"><strong>${formatBRL(inv.amount)}</strong></td>
+                      <td class="text-right tabular">${formatBRL(inv.fee)}</td>
+                      <td><span class="state-text state-positive">● ${escapeHTML(inv.status)}</span></td>
+                    </tr>
+                  `).join('') : '<tr><td colspan="5" style="text-align:center; padding:28px; color:var(--text-secondary);">Nenhum aporte registrado ainda.</td></tr>'}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function selectAporteQuickAmount(val, btn) {
+      document.getElementById('aporte-amount').value = val;
+      document.querySelectorAll('.amount-chip').forEach(c => c.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+    }
+
+    function onAporteProductChange() {
+      const id = document.getElementById('aporte-product').value;
+      state.selectedProductForAporte = id;
+      const p = state.products.find(x => x.id === id);
+      const hint = document.getElementById('aporte-prod-hint');
+      if (p && hint) {
+        hint.innerHTML = `<strong>${escapeHTML(p.name)}:</strong> Taxa ${p.feePercent.toFixed(2)}% · Prazo ${escapeHTML(p.termLabel)} · Risco ${escapeHTML(p.riskLevel)} · Instituição: ${escapeHTML(p.institution)}.`;
+      }
+    }
+
+    function previewAporteConfirmation(e) {
+      e.preventDefault();
+      const prodId = document.getElementById('aporte-product').value;
+      const amount = Number(document.getElementById('aporte-amount').value);
+      const method = document.getElementById('aporte-method').value;
+      const prod = state.products.find(p => p.id === prodId);
+
+      if (!prod) return;
+      if (isNaN(amount) || amount < 20) {
+        showToast('O valor mínimo de aporte na plataforma é R$ 20,00.', 'error');
+        return;
+      }
+      if (amount < prod.minAmount) {
+        showToast(`O produto ${prod.name} exige aporte mínimo de ${formatBRL(prod.minAmount)}.`, 'error');
+        return;
+      }
+      if (method === 'Saldo Disponível' && amount > state.balances.availableForWithdrawal) {
+        showToast('Saldo disponível em conta insuficiente para este aporte.', 'error');
+        return;
+      }
+
+      const fee = +(amount * (prod.feePercent / 100)).toFixed(2);
+      const monthlyEst = +(amount * (prod.estimatedMonthlyRate / 100)).toFixed(2);
+
+      openModal(`
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <h2 style="font-size:20px;">Confirmar Operação de Aporte</h2>
+          <button type="button" class="btn btn-ghost btn-sm" onclick="closeModal()">Fechar</button>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-hairline); padding-bottom:8px;">
+            <span style="color:var(--text-secondary);">Produto financeiro selecionado</span>
+            <strong>${escapeHTML(prod.name)}</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-hairline); padding-bottom:8px;">
+            <span style="color:var(--text-secondary);">Valor do aporte</span>
+            <strong class="tabular">${formatBRL(amount)}</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-hairline); padding-bottom:8px;">
+            <span style="color:var(--text-secondary);">Taxas aplicáveis (${prod.feePercent.toFixed(2)}%)</span>
+            <strong class="tabular">${formatBRL(fee)}</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-hairline); padding-bottom:8px;">
+            <span style="color:var(--text-secondary);">Prazo / Liquidez</span>
+            <strong>${escapeHTML(prod.termLabel)}</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-hairline); padding-bottom:8px;">
+            <span style="color:var(--text-secondary);">Riscos declarados</span>
+            <strong>${escapeHTML(prod.riskLevel)}</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <span style="color:var(--text-secondary);">Estimativa matemática mensal</span>
+            <strong class="tabular" style="color:var(--positive);">~${formatBRL(monthlyEst)} / mês*</strong>
+          </div>
+        </div>
+        <div class="notice-box gold" style="margin-bottom:18px; font-size:12.5px;">
+          *Estimativa matemática educativa, sem garantia de retorno. Em produção, a confirmação depende de liquidação validada pelo servidor e gateway PIX autorizado.
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:10px;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal()">Cancelar</button>
+          <button type="button" class="btn btn-primary btn-sm" onclick="confirmAporte('${prod.id}', ${amount}, ${fee}, '${escapeHTML(method)}')">Confirmar Aporte (Demo)</button>
+        </div>
+      `);
+    }
+
+    function confirmAporte(prodId, amount, fee, method) {
+      const prod = state.products.find(p => p.id === prodId);
+      if (!prod) return;
+      const invId = genId('INV');
+      const today = todayISO();
+
+      state.investments.unshift({
+        id: invId,
+        date: today,
+        productId: prod.id,
+        productName: prod.name,
+        amount,
+        fee,
+        term: prod.termLabel,
+        status: 'Ativo',
+        estimatedYield: +(amount * (prod.estimatedMonthlyRate / 100)).toFixed(2)
+      });
+
+      if (method === 'Saldo Disponível') {
+        state.balances.availableForWithdrawal = Math.max(0, +(state.balances.availableForWithdrawal - amount).toFixed(2));
+      } else {
+        state.balances.totalDeposits = +(state.balances.totalDeposits + amount).toFixed(2);
+      }
+      state.balances.totalInvested = +(state.balances.totalInvested + amount).toFixed(2);
+
+      state.transactions.unshift({
+        id: genId('TXN'),
+        date: today,
+        description: `Aporte em ${prod.name} (${method})`,
+        type: 'Aporte',
+        amount,
+        status: 'Concluído'
+      });
+
+      if (fee > 0) {
+        state.transactions.unshift({
+          id: genId('TXN'),
+          date: today,
+          description: `Taxa administrativa — ${prod.name}`,
+          type: 'Taxa',
+          amount: -fee,
+          status: 'Concluído'
+        });
+      }
+
+      addNotification('Aporte confirmado', `Aporte ${invId} de ${formatBRL(amount)} em ${prod.name} registrado em modo demonstrativo.`);
+      addAuditLog(state.user.id, `Aporte demonstrativo ${invId} de ${formatBRL(amount)} em ${prod.name}.`);
+      saveDemoState();
+      closeModal();
+      navigateTo('investimentos');
+      showToast(`Aporte de ${formatBRL(amount)} confirmado no modo demonstração!`);
+    }
+
+    /* ==========================================================================
+       3. OPORTUNIDADES DE INVESTIMENTO
+       ========================================================================== */
+    function renderOportunidades(root) {
+      const active = state.products.filter(p => p.active);
+      root.innerHTML = `
+        <div class="notice-box" style="margin-bottom:4px;">
+          Os produtos abaixo são configuráveis pelo administrador e apresentam prazos, taxas, liquidez, instituição custodiante e riscos de forma transparente.
+        </div>
+        <div class="grid-2">
+          ${active.map(p => `
+            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; gap:16px;">
+              <div>
+                <div style="font-size:12.5px; color:var(--accent-gold); font-weight:600; margin-bottom:4px;">${escapeHTML(p.category)} · Risco ${escapeHTML(p.riskLevel)}</div>
+                <h3 style="font-size:20px; margin-bottom:8px;">${escapeHTML(p.name)}</h3>
+                <p style="font-size:14px; color:var(--text-secondary); margin-bottom:14px;">${escapeHTML(p.description)}</p>
+                <div style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; font-size:13px; border-top:1px solid var(--border-hairline); padding-top:12px;">
+                  <div><span style="color:var(--text-muted);">Mínimo:</span> <strong class="tabular">${formatBRL(p.minAmount)}</strong></div>
+                  <div><span style="color:var(--text-muted);">Prazo:</span> <strong>${escapeHTML(p.termLabel)}</strong></div>
+                  <div><span style="color:var(--text-muted);">Taxas:</span> <strong class="tabular">${p.feePercent.toFixed(2)}% a.a.</strong></div>
+                  <div><span style="color:var(--text-muted);">Liquidez:</span> <strong>${escapeHTML(p.liquidity)}</strong></div>
+                </div>
+                <div style="margin-top:10px; font-size:12.5px; color:var(--text-muted);">Instituição: ${escapeHTML(p.institution)}</div>
+              </div>
+              <div style="display:flex; gap:10px;">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="openProductDetails('${p.id}')">VER DETALHES</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="state.selectedProductForAporte='${p.id}'; navigateTo('investimentos')">INVESTIR</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    /* ==========================================================================
+       4. MEUS RENDIMENTOS + REINVESTIMENTO AUTORIZADO
+       ========================================================================== */
+    function renderRendimentos(root) {
+      const b = state.balances;
+      root.innerHTML = `
+        <div class="grid-4">
+          <div class="kpi-card">
+            <div class="kpi-label">RENDIMENTOS ACUMULADOS</div>
+            <div class="kpi-value tabular" style="color:var(--positive);">${formatBRL(b.accumulatedYields)}</div>
+            <div class="kpi-meta">Total apurado no histórico</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">RENDIMENTOS DISPONÍVEIS</div>
+            <div class="kpi-value tabular">${formatBRL(b.availableYields)}</div>
+            <div class="kpi-meta">Prontos para saque ou reinvestimento</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">RENDIMENTOS REINVESTIDOS</div>
+            <div class="kpi-value tabular" style="color:var(--accent-gold);">${formatBRL(b.reinvestedYields)}</div>
+            <div class="kpi-meta">Realocados mediante sua autorização</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">ÚLTIMO PERÍODO</div>
+            <div class="kpi-value tabular">${state.yieldHistory[0] ? formatBRL(state.yieldHistory[0].amount) : formatBRL(0)}</div>
+            <div class="kpi-meta">Baseado em apuração verificável</div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="align-items:start;">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Crescimento de Rendimentos</div>
+                <div class="card-subtitle">Apurações registradas (sem rendimentos diários automáticos fictícios)</div>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="simulateVerifiableYield()">Simular Apuração Demo</button>
+            </div>
+            <div id="yield-growth-chart" class="chart-box"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">REINVESTIR RENDIMENTOS</div>
+                <div class="card-subtitle">Disponível para realocação: <strong class="tabular">${formatBRL(b.availableYields)}</strong></div>
+              </div>
+            </div>
+            <form onsubmit="handleReinvestSubmit(event)" style="display:flex; flex-direction:column; gap:14px;">
+              <div class="field">
+                <label for="reinv-mode">Modo de reinvestimento</label>
+                <select id="reinv-mode" class="select" onchange="updateReinvestPreview()">
+                  <option value="all">Reinvestir todos os rendimentos disponíveis (100%)</option>
+                  <option value="pct">Reinvestir uma porcentagem</option>
+                  <option value="custom">Reinvestir um valor personalizado</option>
+                </select>
+              </div>
+              <div id="reinv-extra-wrap" class="field hidden">
+                <label id="reinv-extra-label" for="reinv-extra-val">Porcentagem (%)</label>
+                <input id="reinv-extra-val" class="input tabular" type="number" min="1" step="0.01" value="50" oninput="updateReinvestPreview()" />
+              </div>
+              <div class="field">
+                <label for="reinv-product">Produto de destino</label>
+                <select id="reinv-product" class="select" onchange="updateReinvestPreview()">
+                  ${state.products.filter(p => p.active).map(p => `<option value="${p.id}">${escapeHTML(p.name)} (~${p.estimatedMonthlyRate.toFixed(2)}% est. a.m.)</option>`).join('')}
+                </select>
+              </div>
+              <div id="reinv-sim-box" class="notice-box" style="font-size:13px;"></div>
+              <label style="display:flex; align-items:flex-start; gap:8px; font-size:13px; color:var(--text-secondary); cursor:pointer;">
+                <input id="reinv-auth" type="checkbox" required style="margin-top:3px;" />
+                <span>Autorizo expressamente o reinvestimento do valor selecionado nas condições do produto escolhido.</span>
+              </label>
+              <button type="submit" class="btn btn-primary" ${b.availableYields < 1 ? 'disabled' : ''}>Confirmar Reinvestimento</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Histórico de Rendimentos Registrados</div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID / Data</th>
+                  <th>Produto</th>
+                  <th>Origem Verificável</th>
+                  <th class="text-right">Valor</th>
+                  <th>Destino</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${state.yieldHistory.length ? state.yieldHistory.map(y => `
+                  <tr>
+                    <td><strong class="tabular">${escapeHTML(y.id)}</strong><div style="font-size:12px; color:var(--text-muted);">${escapeHTML(y.date)}</div></td>
+                    <td>${escapeHTML(y.productName)}</td>
+                    <td>${escapeHTML(y.origin)}</td>
+                    <td class="text-right tabular" style="color:var(--positive); font-weight:600;">+${formatBRL(y.amount)}</td>
+                    <td>${escapeHTML(y.disposition)}</td>
+                  </tr>
+                `).join('') : '<tr><td colspan="5" style="text-align:center; padding:24px; color:var(--text-secondary);">Nenhum rendimento registrado no período.</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+
+      const sorted = [...state.yieldHistory].reverse();
+      let acc = 0;
+      const labels = sorted.length ? sorted.map(y => y.date.slice(5)) : ['Atual'];
+      const vals = sorted.length ? sorted.map(y => { acc += y.amount; return +acc.toFixed(2); }) : [0];
+      renderLineChartSVG('yield-growth-chart', [{ name: 'Rendimentos Acumulados', color: '#D4AF37', data: vals }], labels);
+      updateReinvestPreview();
+    }
+
+    function updateReinvestPreview() {
+      const mode = document.getElementById('reinv-mode')?.value;
+      const extraWrap = document.getElementById('reinv-extra-wrap');
+      const extraLbl = document.getElementById('reinv-extra-label');
+      const extraInput = document.getElementById('reinv-extra-val');
+      const simBox = document.getElementById('reinv-sim-box');
+      if (!mode || !simBox) return;
+
+      const avail = state.balances.availableYields;
+      let amount = avail;
+      if (mode === 'all') {
+        extraWrap.classList.add('hidden');
+      } else if (mode === 'pct') {
+        extraWrap.classList.remove('hidden');
+        extraLbl.textContent = 'Porcentagem (%)';
+        const pct = Math.min(100, Math.max(0, Number(extraInput.value) || 0));
+        amount = +(avail * (pct / 100)).toFixed(2);
+      } else {
+        extraWrap.classList.remove('hidden');
+        extraLbl.textContent = 'Valor personalizado (R$)';
+        amount = Math.min(avail, Math.max(0, Number(extraInput.value) || 0));
+      }
+
+      const prod = state.products.find(p => p.id === document.getElementById('reinv-product')?.value);
+      const r = (prod ? prod.estimatedMonthlyRate : 0.9) / 100;
+      const proj12 = amount * Math.pow(1 + r, 12);
+      simBox.innerHTML = `Valor a reinvestir: <strong class="tabular">${formatBRL(amount)}</strong> · Simulação matemática em 12 meses no produto selecionado: <strong class="tabular" style="color:var(--positive);">${formatBRL(proj12)}</strong> (estimativa sem garantia).`;
+    }
+
+    function handleReinvestSubmit(e) {
+      e.preventDefault();
+      const mode = document.getElementById('reinv-mode').value;
+      const avail = state.balances.availableYields;
+      let amount = avail;
+      if (mode === 'pct') {
+        const pct = Math.min(100, Math.max(1, Number(document.getElementById('reinv-extra-val').value) || 0));
+        amount = +(avail * (pct / 100)).toFixed(2);
+      } else if (mode === 'custom') {
+        amount = +(Number(document.getElementById('reinv-extra-val').value) || 0).toFixed(2);
+      }
+
+      if (amount <= 0 || amount > avail) {
+        showToast('Valor inválido ou acima dos rendimentos disponíveis.', 'error');
+        return;
+      }
+
+      const prod = state.products.find(p => p.id === document.getElementById('reinv-product').value);
+      state.balances.availableYields = +(avail - amount).toFixed(2);
+      state.balances.reinvestedYields = +(state.balances.reinvestedYields + amount).toFixed(2);
+      state.balances.totalInvested = +(state.balances.totalInvested + amount).toFixed(2);
+
+      state.investments.unshift({
+        id: genId('INV'),
+        date: todayISO(),
+        productId: prod.id,
+        productName: `${prod.name} (Reinvestimento)`,
+        amount,
+        fee: 0,
+        term: prod.termLabel,
+        status: 'Ativo',
+        estimatedYield: +(amount * (prod.estimatedMonthlyRate / 100)).toFixed(2)
+      });
+
+      state.transactions.unshift({
+        id: genId('TXN'),
+        date: todayISO(),
+        description: `Reinvestimento autorizado em ${prod.name}`,
+        type: 'Reinvestimento',
+        amount,
+        status: 'Concluído'
+      });
+
+      addNotification('Reinvestimento concluído', `${formatBRL(amount)} realocados mediante sua autorização.`);
+      addAuditLog(state.user.id, `Reinvestimento autorizado de ${formatBRL(amount)} em ${prod.name}.`);
+      saveDemoState();
+      renderRendimentos(document.getElementById('app-content'));
+      showToast(`Reinvestimento de ${formatBRL(amount)} realizado!`);
+    }
+
+    function simulateVerifiableYield() {
+      const base = Math.max(20, state.balances.totalInvested);
+      const amt = +(base * 0.0088).toFixed(2);
+      state.balances.accumulatedYields = +(state.balances.accumulatedYields + amt).toFixed(2);
+      state.balances.availableYields = +(state.balances.availableYields + amt).toFixed(2);
+      state.balances.availableForWithdrawal = +(state.balances.availableForWithdrawal + amt).toFixed(2);
+      state.yieldHistory.unshift({
+        id: genId('RND'),
+        date: todayISO(),
+        productName: 'Carteira Consolidada',
+        origin: 'Simulação de apuração verificável',
+        amount: amt,
+        disposition: 'Disponível'
+      });
+      state.transactions.unshift({
+        id: genId('TXN'),
+        date: todayISO(),
+        description: 'Rendimento demonstrativo registrado',
+        type: 'Rendimento',
+        amount: amt,
+        status: 'Concluído'
+      });
+      addNotification('Rendimento registrado', `Apuração demonstrativa de ${formatBRL(amt)} adicionada.`);
+      saveDemoState();
+      renderRendimentos(document.getElementById('app-content'));
+      showToast(`Rendimento demonstrativo de ${formatBRL(amt)} registrado.`);
+    }
+
+    function renderCalculadoraView(root) {
+      root.innerHTML = `<div id="app-calculator-mount"></div>`;
+      mountCalculator('app-calculator-mount', 'app');
+    }
+
+    /* ==========================================================================
+       5. PROGRAMA DE INDICAÇÃO
+       ========================================================================== */
+    function renderIndicacoes(root) {
+      const refLink = `https://lucrodigital.com/cadastro?ref=${encodeURIComponent(state.user.referralCode)}`;
+      const qrSvg = buildQRCodeSVG(refLink, 148);
+      const activeCount = state.referrals.filter(r => r.status === 'Ativo').length;
+      const regCount = state.referrals.length;
+      const rules = state.promoRules;
+
+      root.innerHTML = `
+        <div class="grid-4">
+          <div class="kpi-card">
+            <div class="kpi-label">TOTAL DE CONVIDADOS</div>
+            <div class="kpi-value tabular">${regCount}</div>
+            <div class="kpi-meta">Limite promocional: ${rules.maxReferralsPerUser} por usuário</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">CONVIDADOS ATIVOS</div>
+            <div class="kpi-value tabular" style="color:var(--positive);">${activeCount}</div>
+            <div class="kpi-meta">Aporte mínimo qualificado: ${formatBRL(rules.minDepositToQualify)}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">BÔNUS DISPONÍVEL</div>
+            <div class="kpi-value tabular" style="color:var(--accent-gold);">${formatBRL(state.balances.referralBonusAvailable)}</div>
+            <div class="kpi-meta">Elegível para resgate</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">BÔNUS RECEBIDOS</div>
+            <div class="kpi-value tabular">${formatBRL(state.balances.referralBonusReceived)}</div>
+            <div class="kpi-meta">Pago via orçamento promocional</div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="align-items:start;">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Seu Código, Link e QR Code</div>
+                <div class="card-subtitle">Campanha ativa: ${escapeHTML(rules.campaignPeriod)}</div>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="simulateNewReferral()">Simular Indicação Demo</button>
+            </div>
+
+            <div style="display:flex; gap:20px; align-items:center; flex-wrap:wrap; margin-bottom:18px;">
+              <div>${qrSvg}</div>
+              <div style="flex:1; min-width:220px; display:flex; flex-direction:column; gap:10px;">
+                <div>
+                  <div style="font-size:12px; color:var(--text-muted);">Código exclusivo</div>
+                  <div class="tabular" style="font-size:20px; font-weight:700; color:var(--accent-gold);">${escapeHTML(state.user.referralCode)}</div>
+                </div>
+                <div class="field">
+                  <label for="ref-link-input">Link de convite</label>
+                  <input id="ref-link-input" class="input tabular" type="text" readonly value="${escapeHTML(refLink)}" />
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-primary btn-sm" onclick="copyReferralLink('${escapeHTML(refLink)}')">Copiar Link</button>
+              <button type="button" class="btn btn-positive btn-sm" onclick="shareWhatsApp('${escapeHTML(refLink)}')">Compartilhar no WhatsApp</button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="shareSocial('${escapeHTML(refLink)}')">Compartilhar em Redes Sociais</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Regras Promocionais e Transparência</div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px; font-size:13.5px; color:var(--text-secondary);">
+              <div>· <strong>Valor do bônus:</strong> ${formatBRL(rules.bonusPerQualifiedUser)} por amigo que concluir cadastro e realizar aporte inicial mínimo de ${formatBRL(rules.minDepositToQualify)}.</div>
+              <div>· <strong>Teto definido:</strong> limitado a ${rules.maxReferralsPerUser} indicações bonificadas por conta.</div>
+              <div>· <strong>Origem dos recursos:</strong> custeado exclusivamente pelo orçamento promocional da plataforma (${formatBRL(rules.totalBudget)} reservados para a campanha; utilizado: ${formatBRL(rules.usedBudget)}).</div>
+              <div>· <strong>Sem estrutura multinível:</strong> não existem comissões em cadeia, níveis ilimitados nem pagamentos com depósitos de outros participantes.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Histórico de Indicações</div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID / Data</th>
+                  <th>Convidado</th>
+                  <th>Etapa</th>
+                  <th>Status</th>
+                  <th class="text-right">Bônus</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${state.referrals.length ? state.referrals.map(r => `
+                  <tr>
+                    <td><strong class="tabular">${escapeHTML(r.id)}</strong><div style="font-size:12px; color:var(--text-muted);">${escapeHTML(r.date)}</div></td>
+                    <td>${escapeHTML(r.name)}</td>
+                    <td>${escapeHTML(r.stage)}</td>
+                    <td><span class="state-text ${r.status === 'Ativo' ? 'state-positive' : 'state-warning'}">${r.status === 'Ativo' ? '✓ Ativo' : '◷ Cadastrado'}</span></td>
+                    <td class="text-right tabular">${formatBRL(r.bonus)}</td>
+                  </tr>
+                `).join('') : '<tr><td colspan="5" style="text-align:center; padding:24px; color:var(--text-secondary);">Nenhum convidado registrado ainda.</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    function copyReferralLink(link) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(link).then(() => showToast('Link de indicação copiado!')).catch(() => showToast('Link pronto: ' + link));
+      } else {
+        showToast('Copie o link no campo exibido.');
+      }
+    }
+
+    function shareWhatsApp(link) {
+      const msg = `Conheça a plataforma LUCRO DIGITAL (modo demonstrativo): ${link}`;
+      showToast('Ação de compartilhamento WhatsApp preparada: ' + msg);
+    }
+
+    function shareSocial(link) {
+      if (navigator.share) {
+        navigator.share({ title: 'LUCRO DIGITAL', text: 'Conheça a plataforma LUCRO DIGITAL', url: link }).catch(() => {});
+      } else {
+        copyReferralLink(link);
+      }
+    }
+
+    function simulateNewReferral() {
+      if (!state.promoRules.active) {
+        showToast('A campanha promocional está pausada pelo administrador.', 'warning');
+        return;
+      }
+      if (state.referrals.filter(r => r.status === 'Ativo').length >= state.promoRules.maxReferralsPerUser) {
+        showToast('Limite máximo de indicações bonificadas por usuário atingido.', 'warning');
+        return;
+      }
+      const names = ['Beatriz Ferreira', 'Gustavo Almeida', 'Camila Nogueira', 'Pedro Henrique Costa'];
+      const name = names[state.referrals.length % names.length];
+      const bonus = state.promoRules.bonusPerQualifiedUser;
+      const id = genId('REF');
+      state.referrals.unshift({ id, name, date: todayISO(), stage: 'Ativo (Aporte demo R$ 100)', status: 'Ativo', bonus });
+      state.balances.referralBonusAvailable = +(state.balances.referralBonusAvailable + bonus).toFixed(2);
+      state.balances.referralBonusReceived = +(state.balances.referralBonusReceived + bonus).toFixed(2);
+      state.balances.availableForWithdrawal = +(state.balances.availableForWithdrawal + bonus).toFixed(2);
+      state.promoRules.usedBudget = +(state.promoRules.usedBudget + bonus).toFixed(2);
+      state.transactions.unshift({ id: genId('TXN'), date: todayISO(), description: `Bônus promocional de indicação (${id})`, type: 'Bônus', amount: bonus, status: 'Concluído' });
+      addNotification('Bônus promocional creditado', `Indicação ${name} qualificada (+${formatBRL(bonus)}).`);
+      saveDemoState();
+      renderIndicacoes(document.getElementById('app-content'));
+      showToast(`Indicação simulada para ${name} (+${formatBRL(bonus)}).`);
+    }
+
+    /* ==========================================================================
+       6. SISTEMA DE SAQUES (CALENDÁRIO BIMESTRAL & HISTÓRICO)
+       ========================================================================== */
+    const BIMESTERS = [
+      'Janeiro / Fevereiro',
+      'Março / Abril',
+      'Maio / Junho',
+      'Julho / Agosto',
+      'Setembro / Outubro',
+      'Novembro / Dezembro'
+    ];
+
+    function renderSaques(root) {
+      const avail = state.balances.availableForWithdrawal;
+      const currentCycle = getCurrentBimester();
+      const reqDate = todayISO();
+      const procDate = new Date(Date.now() + 4 * 86400000).toISOString().slice(0, 10);
+
+      root.innerHTML = `
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Calendário Bimestral de Saques</div>
+              <div class="card-subtitle">Ciclos de dois meses conforme regras do produto contratado</div>
+            </div>
+            <span class="state-text state-info">Ciclo atual: ${currentCycle}</span>
+          </div>
+          <div class="grid-3" style="gap:12px;">
+            ${BIMESTERS.map(b => {
+              const isCur = b === currentCycle;
+              return `
+                <div style="padding:14px; border-radius:10px; border:1px solid ${isCur ? 'var(--accent-gold)' : 'var(--border-hairline)'}; background:${isCur ? 'var(--accent-gold-soft)' : 'var(--bg-input)'};">
+                  <div style="font-size:13.5px; font-weight:600; color:${isCur ? '#FDE68A' : 'var(--text-primary)'};">${b}</div>
+                  <div style="font-size:12px; color:var(--text-secondary); margin-top:4px;">${isCur ? 'Janela aberta para solicitações' : 'Ciclo programado'}</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <div class="grid-2" style="align-items:start;">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">SOLICITAR SAQUE</div>
+                <div class="card-subtitle">Validação obrigatória no servidor em ambiente real</div>
+              </div>
+            </div>
+
+            <form onsubmit="handleWithdrawSubmit(event)" style="display:flex; flex-direction:column; gap:14px;">
+              <div class="grid-2" style="gap:12px;">
+                <div style="padding:12px; background:var(--bg-input); border-radius:8px; border:1px solid var(--border-hairline);">
+                  <div style="font-size:12px; color:var(--text-muted);">Saldo disponível</div>
+                  <strong class="tabular" style="font-size:18px; color:var(--positive);">${formatBRL(avail)}</strong>
+                </div>
+                <div style="padding:12px; background:var(--bg-input); border-radius:8px; border:1px solid var(--border-hairline);">
+                  <div style="font-size:12px; color:var(--text-muted);">Mínimo / Taxa</div>
+                  <strong class="tabular" style="font-size:15px;">R$ 20,00 · Taxa R$ 0,00</strong>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="saq-amount">Valor do saque (R$)</label>
+                <input id="saq-amount" class="input tabular" type="number" min="20" max="${avail}" step="0.01" required placeholder="Ex: 100.00" />
+              </div>
+
+              <div class="field">
+                <label for="saq-method">Método de retirada</label>
+                <select id="saq-method" class="select">
+                  <option value="PIX (Chave CPF)">PIX (Chave CPF do titular)</option>
+                  <option value="PIX (E-mail)">PIX (E-mail cadastrado)</option>
+                  <option value="Transferência Bancária (TED)">Transferência Bancária (Mesma titularidade)</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="saq-dest">Chave PIX ou Conta Bancária (mesma titularidade)</label>
+                <input id="saq-dest" class="input" type="text" required value="${escapeHTML(state.user.cpf)}" />
+              </div>
+
+              <div class="notice-box" style="font-size:12.5px;">
+                Data de solicitação: <strong>${reqDate}</strong> · Previsão de processamento: <strong>${procDate}</strong> · Saques acima do saldo disponível são bloqueados automaticamente.
+              </div>
+
+              <button type="submit" class="btn btn-primary" ${avail < 20 ? 'disabled' : ''}>SOLICITAR SAQUE</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Histórico de Saques</div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Pedido</th>
+                    <th>Método / Ciclo</th>
+                    <th class="text-right">Valor</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${state.withdrawals.length ? state.withdrawals.map(w => {
+                    const cls = w.status === 'Pago' || w.status === 'Aprovado' ? 'state-positive'
+                      : (w.status === 'Recusado' || w.status === 'Cancelado' ? 'state-danger' : 'state-warning');
+                    return `
+                      <tr>
+                        <td><strong class="tabular">${escapeHTML(w.id)}</strong><div style="font-size:12px; color:var(--text-muted);">${escapeHTML(w.requestDate)}</div></td>
+                        <td><div>${escapeHTML(w.method)}</div><div style="font-size:12px; color:var(--text-muted);">${escapeHTML(w.cycle)}</div></td>
+                        <td class="text-right tabular"><strong>${formatBRL(w.amount)}</strong></td>
+                        <td><span class="state-text ${cls}">${escapeHTML(w.status)}</span></td>
+                        <td>${w.status === 'Pendente' ? `<button type="button" class="btn btn-ghost btn-sm" onclick="cancelWithdrawal('${w.id}')">Cancelar</button>` : '—'}</td>
+                      </tr>
+                    `;
+                  }).join('') : '<tr><td colspan="5" style="text-align:center; padding:24px; color:var(--text-secondary);">Nenhuma solicitação de saque registrada.</td></tr>'}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleWithdrawSubmit(e) {
+      e.preventDefault();
+      const amount = +(Number(document.getElementById('saq-amount').value) || 0).toFixed(2);
+      const method = document.getElementById('saq-method').value;
+      const dest = document.getElementById('saq-dest').value.trim();
+
+      if (amount < 20) {
+        showToast('O valor mínimo para solicitação de saque é R$ 20,00.', 'error');
+        return;
+      }
+      if (amount > state.balances.availableForWithdrawal) {
+        showToast('Operação bloqueada: valor solicitado excede o saldo disponível.', 'error');
+        return;
+      }
+
+      const id = genId('SAQ');
+      const reqDate = todayISO();
+      const procDate = new Date(Date.now() + 4 * 86400000).toISOString().slice(0, 10);
+      const cycle = getCurrentBimester();
+
+      state.balances.availableForWithdrawal = +(state.balances.availableForWithdrawal - amount).toFixed(2);
+      state.withdrawals.unshift({
+        id, requestDate: reqDate, processDate: procDate, cycle,
+        amount, fee: 0, method, destination: dest, status: 'Pendente',
+        userId: state.user.id, userName: state.user.name, note: 'Solicitação registrada em modo demo'
+      });
+
+      state.transactions.unshift({
+        id: genId('TXN'), date: reqDate, description: `Solicitação de saque ${id} (${method})`,
+        type: 'Saque', amount: -amount, status: 'Pendente'
+      });
+
+      addNotification('Solicitação de saque enviada', `Pedido ${id} de ${formatBRL(amount)} no ciclo ${cycle} aguarda análise.`);
+      addAuditLog(state.user.id, `Solicitou saque ${id} de ${formatBRL(amount)}.`);
+      saveDemoState();
+      renderSaques(document.getElementById('app-content'));
+      showToast(`Saque ${id} solicitado com sucesso!`);
+    }
+
+    function cancelWithdrawal(id) {
+      const w = state.withdrawals.find(x => x.id === id && x.status === 'Pendente');
+      if (!w) return;
+      w.status = 'Cancelado';
+      state.balances.availableForWithdrawal = +(state.balances.availableForWithdrawal + w.amount).toFixed(2);
+      state.transactions.unshift({
+        id: genId('TXN'), date: todayISO(), description: `Estorno por cancelamento ${id}`,
+        type: 'Saque', amount: w.amount, status: 'Cancelado'
+      });
+      addAuditLog(state.user.id, `Cancelou solicitação de saque ${id}.`);
+      saveDemoState();
+      renderSaques(document.getElementById('app-content'));
+      showToast(`Solicitação ${id} cancelada e valor devolvido ao saldo disponível.`, 'warning');
+    }
+
+    /* ==========================================================================
+       7. HISTÓRICO FINANCEIRO (MINHAS MOVIMENTAÇÕES + CSV / PDF)
+       ========================================================================== */
+    let txnFilter = { type: 'Todos', status: 'Todos', search: '', minVal: '' };
+
+    function renderMovimentacoes(root) {
+      const types = ['Todos', 'Depósito', 'Aporte', 'Rendimento', 'Bônus', 'Saque', 'Taxa', 'Reinvestimento'];
+      const statuses = ['Todos', 'Concluído', 'Pendente', 'Pago', 'Recusado', 'Cancelado'];
+
+      const filtered = state.transactions.filter(t => {
+        if (txnFilter.type !== 'Todos' && t.type !== txnFilter.type) return false;
+        if (txnFilter.status !== 'Todos' && t.status !== txnFilter.status) return false;
+        if (txnFilter.minVal && Math.abs(t.amount) < Number(txnFilter.minVal)) return false;
+        if (txnFilter.search) {
+          const q = txnFilter.search.toLowerCase();
+          if (!t.description.toLowerCase().includes(q) && !t.id.toLowerCase().includes(q) && !t.date.includes(q)) return false;
+        }
+        return true;
+      });
+
+      root.innerHTML = `
+        <div class="card">
+          <div class="card-header" style="flex-wrap:wrap;">
+            <div>
+              <div class="card-title">MINHAS MOVIMENTAÇÕES</div>
+              <div class="card-subtitle">${filtered.length} registro(s) encontrado(s)</div>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;" class="no-print">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="exportTransactionsCSV()">EXPORTAR CSV</button>
+              <button type="button" class="btn btn-primary btn-sm" onclick="window.print()">EXPORTAR PDF</button>
+            </div>
+          </div>
+
+          <div class="grid-4 no-print" style="margin-bottom:18px; gap:12px;">
+            <div class="field">
+              <label for="flt-search">Buscar (Descrição, ID ou Data)</label>
+              <input id="flt-search" class="input" type="text" value="${escapeHTML(txnFilter.search)}" placeholder="Ex: TXN-9001 ou 2026-11" oninput="txnFilter.search=this.value; renderMovimentacoes(document.getElementById('app-content'))" />
+            </div>
+            <div class="field">
+              <label for="flt-type">Tipo</label>
+              <select id="flt-type" class="select" onchange="txnFilter.type=this.value; renderMovimentacoes(document.getElementById('app-content'))">
+                ${types.map(tp => `<option value="${tp}" ${txnFilter.type === tp ? 'selected' : ''}>${tp}</option>`).join('')}
+              </select>
+            </div>
+            <div class="field">
+              <label for="flt-status">Status</label>
+              <select id="flt-status" class="select" onchange="txnFilter.status=this.value; renderMovimentacoes(document.getElementById('app-content'))">
+                ${statuses.map(st => `<option value="${st}" ${txnFilter.status === st ? 'selected' : ''}>${st}</option>`).join('')}
+              </select>
+            </div>
+            <div class="field">
+              <label for="flt-min">Valor mínimo (R$)</label>
+              <input id="flt-min" class="input tabular" type="number" min="0" value="${escapeHTML(txnFilter.minVal)}" placeholder="0,00" oninput="txnFilter.minVal=this.value; renderMovimentacoes(document.getElementById('app-content'))" />
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID Transação</th>
+                  <th>Data</th>
+                  <th>Descrição</th>
+                  <th>Tipo</th>
+                  <th class="text-right">Valor</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${filtered.length ? filtered.map(t => {
+                  const pos = t.amount >= 0;
+                  const stClass = t.status === 'Concluído' || t.status === 'Pago' ? 'state-positive'
+                    : (t.status === 'Recusado' || t.status === 'Cancelado' ? 'state-danger' : 'state-warning');
+                  return `
+                    <tr>
+                      <td class="tabular" style="font-weight:600;">${escapeHTML(t.id)}</td>
+                      <td class="tabular">${escapeHTML(t.date)}</td>
+                      <td>${escapeHTML(t.description)}</td>
+                      <td>${escapeHTML(t.type)}</td>
+                      <td class="text-right tabular" style="color:${pos ? 'var(--positive)' : 'var(--text-primary)'}; font-weight:600;">
+                        ${pos ? '+' : ''}${formatBRL(t.amount)}
+                      </td>
+                      <td><span class="state-text ${stClass}">${escapeHTML(t.status)}</span></td>
+                    </tr>
+                  `;
+                }).join('') : '<tr><td colspan="6" style="text-align:center; padding:26px; color:var(--text-secondary);">Nenhuma movimentação corresponde aos filtros aplicados.</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    function exportTransactionsCSV() {
+      const header = ['Identificador', 'Data', 'Descricao', 'Tipo', 'Valor', 'Status'];
+      const rows = state.transactions.map(t => [
+        t.id, t.date, `"${t.description.replace(/"/g, '""')}"`, t.type, t.amount.toFixed(2), t.status
+      ].join(';'));
+      const csv = '\uFEFF' + [header.join(';'), ...rows].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `lucro_digital_movimentacoes_${todayISO()}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Histórico exportado em CSV.');
+    }
+
+    /* ==========================================================================
+       8. CONFIGURAÇÕES (MINHA CONTA)
+       ========================================================================== */
+    function renderConta(root) {
+      const u = state.user;
+      root.innerHTML = `
+        <div class="grid-2" style="align-items:start;">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Dados Cadastrais</div>
+                <div class="card-subtitle">CPF: <span class="tabular">${escapeHTML(u.cpf)}</span> · Situação: ${escapeHTML(u.status)}</div>
+              </div>
+            </div>
+            <form onsubmit="handleUpdateProfile(event)" style="display:flex; flex-direction:column; gap:14px;">
+              <div class="field">
+                <label for="acc-name">Nome completo</label>
+                <input id="acc-name" class="input" type="text" required value="${escapeHTML(u.name)}" />
+              </div>
+              <div class="field">
+                <label for="acc-email">E-mail</label>
+                <input id="acc-email" class="input" type="email" required value="${escapeHTML(u.email)}" />
+              </div>
+              <div class="field">
+                <label for="acc-phone">Telefone</label>
+                <input id="acc-phone" class="input tabular" type="text" required value="${escapeHTML(u.phone)}" oninput="this.value=maskPhone(this.value)" />
+              </div>
+              <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            </form>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:20px;">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Segurança e Alteração de Senha</div>
+              </div>
+              <form onsubmit="handleChangePassword(event)" style="display:flex; flex-direction:column; gap:12px;">
+                <div class="field">
+                  <label for="pwd-new">Nova senha (mín. 6 caracteres)</label>
+                  <input id="pwd-new" class="input" type="password" minlength="6" required placeholder="••••••" />
+                </div>
+                <div class="field">
+                  <label for="pwd-conf">Confirmar nova senha</label>
+                  <input id="pwd-conf" class="input" type="password" minlength="6" required placeholder="••••••" />
+                </div>
+                <button type="submit" class="btn btn-secondary">Alterar Senha (Simulado)</button>
+              </form>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Preferências, Documentos e Encerramento</div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; margin-bottom:16px;">
+                <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                  <input type="checkbox" ${u.notifyEmail ? 'checked' : ''} onchange="state.user.notifyEmail=this.checked; saveDemoState(); showToast('Preferência atualizada.');" />
+                  <span>Receber alertas de movimentações por e-mail</span>
+                </label>
+                <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                  <input type="checkbox" ${u.notifyWithdrawals ? 'checked' : ''} onchange="state.user.notifyWithdrawals=this.checked; saveDemoState(); showToast('Preferência atualizada.');" />
+                  <span>Alertar abertura de janela bimestral de saques</span>
+                </label>
+              </div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="openLegalModal('terms')">Termos de Uso</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="openLegalModal('privacy')">Política de Privacidade</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="navigateTo('suporte')">Solicitar Suporte</button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="confirmCloseAccount()">Encerrar Conta</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleUpdateProfile(e) {
+      e.preventDefault();
+      state.user.name = document.getElementById('acc-name').value.trim();
+      state.user.email = document.getElementById('acc-email').value.trim();
+      state.user.phone = document.getElementById('acc-phone').value.trim();
+      updateDemoRoleUI();
+      saveDemoState();
+      showToast('Dados cadastrais atualizados no modo demonstração.');
+    }
+
+    function handleChangePassword(e) {
+      e.preventDefault();
+      const p1 = document.getElementById('pwd-new').value;
+      const p2 = document.getElementById('pwd-conf').value;
+      if (p1 !== p2) {
+        showToast('As senhas digitadas não conferem.', 'error');
+        return;
+      }
+      e.target.reset();
+      addAuditLog(state.user.id, 'Solicitação simulada de alteração de senha.');
+      showToast('Senha atualizada (em produção, enviada via HTTPS ao servidor).');
+    }
+
+    function confirmCloseAccount() {
+      openModal(`
+        <h2 style="font-size:20px; margin-bottom:10px;">Encerrar Conta Demonstrativa?</h2>
+        <p style="font-size:14px; color:var(--text-secondary); margin-bottom:18px;">
+          Esta ação reinicia os dados da sessão demonstrativa e retorna à página inicial.
+        </p>
+        <div style="display:flex; justify-content:flex-end; gap:10px;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal()">Cancelar</button>
+          <button type="button" class="btn btn-danger btn-sm" onclick="closeModal(); zeroDemoData(); logoutUser();">Confirmar Encerramento</button>
+        </div>
+      `);
+    }
+
+    /* ==========================================================================
+       9. SUPORTE (CENTRAL DE ATENDIMENTO)
+       ========================================================================== */
+    function renderSuporte(root) {
+      root.innerHTML = `
+        <div class="grid-2" style="align-items:start;">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Abrir Solicitação de Atendimento</div>
+                <div class="card-subtitle">Atendimento humano via protocolo interno</div>
+              </div>
+            </div>
+            <form onsubmit="handleSupportSubmit(event)" style="display:flex; flex-direction:column; gap:14px;">
+              <div class="field">
+                <label for="sup-cat">Assunto / Categoria</label>
+                <select id="sup-cat" class="select">
+                  <option value="Aportes e Produtos">Aportes e Produtos</option>
+                  <option value="Saques e Calendário">Saques e Calendário</option>
+                  <option value="Indicações e Bônus">Indicações e Bônus</option>
+                  <option value="Cadastro e Segurança">Cadastro e Segurança</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="sup-subj">Título da solicitação</label>
+                <input id="sup-subj" class="input" type="text" required placeholder="Descreva resumidamente" />
+              </div>
+              <div class="field">
+                <label for="sup-msg">Mensagem detalhada</label>
+                <textarea id="sup-msg" class="textarea" required placeholder="Informe o ID da transação ou dúvida..."></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Enviar Solicitação</button>
+            </form>
+
+            <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border-hairline); display:flex; gap:10px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-positive btn-sm" onclick="showToast('Canal WhatsApp oficial: +55 (11) 90000-0000 (configurável em produção).')">Atendimento WhatsApp</button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="showToast('E-mail oficial: suporte@lucrodigital.com')">suporte@lucrodigital.com</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Histórico de Solicitações</div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              ${state.supportTickets.map(tk => `
+                <div style="padding:14px; background:var(--bg-input); border:1px solid var(--border-hairline); border-radius:10px;">
+                  <div style="display:flex; justify-content:space-between; gap:8px; margin-bottom:4px;">
+                    <strong class="tabular">${escapeHTML(tk.id)} · ${escapeHTML(tk.subject)}</strong>
+                    <span class="state-text ${tk.status === 'Respondido' ? 'state-positive' : 'state-warning'}">${escapeHTML(tk.status)}</span>
+                  </div>
+                  <div style="font-size:12px; color:var(--text-muted); margin-bottom:6px;">${escapeHTML(tk.date)} · ${escapeHTML(tk.category)}</div>
+                  <p style="font-size:13.5px; color:var(--text-secondary);">${escapeHTML(tk.message)}</p>
+                  ${tk.reply ? `<div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border-hairline); font-size:13px; color:#A7F3D0;"><strong>Resposta:</strong> ${escapeHTML(tk.reply)}</div>` : ''}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleSupportSubmit(e) {
+      e.preventDefault();
+      const cat = document.getElementById('sup-cat').value;
+      const subj = document.getElementById('sup-subj').value.trim();
+      const msg = document.getElementById('sup-msg').value.trim();
+      const id = genId('SUP');
+      state.supportTickets.unshift({
+        id, date: todayISO(), subject: subj, category: cat, status: 'Em Análise', message: msg, reply: ''
+      });
+      addNotification('Protocolo de suporte aberto', `Solicitação ${id} registrada com sucesso.`);
+      saveDemoState();
+      renderSuporte(document.getElementById('app-content'));
+      showToast(`Protocolo ${id} enviado!`);
+    }
+
+    /* ==========================================================================
+       10. PAINEL ADMINISTRATIVO PROTEGIDO (DEMO)
+       ========================================================================== */
+    function renderAdmin(root) {
+      const pendingW = state.withdrawals.filter(w => w.status === 'Pendente' || w.status === 'Em Processamento');
+      const paidW = state.withdrawals.filter(w => w.status === 'Pago');
+      const totalAportes = state.investments.reduce((s, x) => s + x.amount, 0);
+      const totalSaquesReq = state.withdrawals.reduce((s, x) => s + x.amount, 0);
+      const totalSaquesPaid = paidW.reduce((s, x) => s + x.amount, 0);
+      const adminFees = state.investments.reduce((s, x) => s + (x.fee || 0), 0);
+
+      root.innerHTML = `
+        <div class="notice-box gold">
+          <strong>Área Administrativa Demonstrativa:</strong> Em produção, o acesso administrativo exige MFA, RBAC verificado no servidor e trilha imutável de auditoria.
+        </div>
+
+        <div class="grid-4" style="grid-template-columns:repeat(5, minmax(0, 1fr));">
+          <div class="kpi-card"><div class="kpi-label">Usuários Totais</div><div class="kpi-value tabular">${state.adminUsers.length}</div></div>
+          <div class="kpi-card"><div class="kpi-label">Usuários Ativos</div><div class="kpi-value tabular">${state.adminUsers.filter(u => !u.blocked).length}</div></div>
+          <div class="kpi-card"><div class="kpi-label">Aportes Registrados</div><div class="kpi-value tabular">${formatBRL(totalAportes)}</div></div>
+          <div class="kpi-card"><div class="kpi-label">Saques Solicitados</div><div class="kpi-value tabular">${formatBRL(totalSaquesReq)}</div></div>
+          <div class="kpi-card"><div class="kpi-label">Saques Processados</div><div class="kpi-value tabular" style="color:var(--positive);">${formatBRL(totalSaquesPaid)}</div></div>
+          <div class="kpi-card"><div class="kpi-label">Mov. Pendentes</div><div class="kpi-value tabular" style="color:var(--warning);">${pendingW.length}</div></div>
+          <div class="kpi-card"><div class="kpi-label">Indicações</div><div class="kpi-value tabular">${state.referrals.length}</div></div>
+          <div class="kpi-card"><div class="kpi-label">Bônus Promocionais</div><div class="kpi-value tabular">${formatBRL(state.promoRules.usedBudget)}</div></div>
+          <div class="kpi-card"><div class="kpi-label">Produtos Ativos</div><div class="kpi-value tabular">${state.products.filter(p => p.active).length} / ${state.products.length}</div></div>
+          <div class="kpi-card"><div class="kpi-label">Receita Comercial (Taxas)</div><div class="kpi-value tabular" style="color:var(--accent-gold);">${formatBRL(adminFees)}</div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" style="flex-wrap:wrap;">
+            <div class="segmented" role="tablist">
+              ${[
+                ['usuarios', 'Usuários'],
+                ['produtos', 'Produtos Financeiros'],
+                ['saques', `Saques (${pendingW.length})`],
+                ['promocional', 'Programa Promocional'],
+                ['auditoria', 'Auditoria & Integrações']
+              ].map(([id, label]) => `
+                <button type="button" class="${state.adminTab === id ? 'active' : ''}" onclick="state.adminTab='${id}'; saveDemoState(); renderAdmin(document.getElementById('app-content'))">${label}</button>
+              `).join('')}
+            </div>
+          </div>
+          <div id="admin-tab-body"></div>
+        </div>
+      `;
+
+      const body = document.getElementById('admin-tab-body');
+      if (state.adminTab === 'usuarios') renderAdminUsers(body);
+      else if (state.adminTab === 'produtos') renderAdminProducts(body);
+      else if (state.adminTab === 'saques') renderAdminWithdrawals(body);
+      else if (state.adminTab === 'promocional') renderAdminPromo(body);
+      else renderAdminAudit(body);
+    }
+
+    let adminUserQuery = '';
+    function renderAdminUsers(el) {
+      const list = state.adminUsers.filter(u =>
+        !adminUserQuery || u.name.toLowerCase().includes(adminUserQuery) || u.email.toLowerCase().includes(adminUserQuery) || u.cpf.includes(adminUserQuery)
+      );
+      el.innerHTML = `
+        <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
+          <input class="input" style="max-width:340px;" type="text" placeholder="Pesquisar usuário por nome, e-mail ou CPF..." value="${escapeHTML(adminUserQuery)}" oninput="adminUserQuery=this.value.toLowerCase(); renderAdminUsers(document.getElementById('admin-tab-body'))" />
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID / Cadastro</th>
+                <th>Usuário</th>
+                <th class="text-right">Aportes</th>
+                <th>KYC</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${list.map(u => `
+                <tr>
+                  <td><strong class="tabular">${escapeHTML(u.id)}</strong><div style="font-size:12px; color:var(--text-muted);">${escapeHTML(u.joined)}</div></td>
+                  <td><div>${escapeHTML(u.name)}</div><div style="font-size:12px; color:var(--text-muted);">${escapeHTML(u.email)} · ${escapeHTML(u.cpf)}</div></td>
+                  <td class="text-right tabular">${formatBRL(u.invested)}</td>
+                  <td><span class="state-text ${u.kyc ? 'state-positive' : 'state-warning'}">${u.kyc ? 'Verificado' : 'Pendente'}</span></td>
+                  <td><span class="state-text ${u.blocked ? 'state-danger' : 'state-positive'}">${u.blocked ? 'Bloqueado' : 'Ativo'}</span></td>
+                  <td style="display:flex; gap:6px; flex-wrap:wrap;">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="toggleAdminUserKYC('${u.id}')">${u.kyc ? 'Revogar KYC' : 'Verificar KYC'}</button>
+                    <button type="button" class="btn ${u.blocked ? 'btn-positive' : 'btn-danger'} btn-sm" onclick="toggleAdminUserBlock('${u.id}')">${u.blocked ? 'Desbloquear' : 'Bloquear'}</button>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function toggleAdminUserKYC(id) {
+      const u = state.adminUsers.find(x => x.id === id);
+      if (!u) return;
+      u.kyc = !u.kyc;
+      addAuditLog('ADMIN', `Alterou verificação KYC de ${u.id} para ${u.kyc}.`);
+      saveDemoState();
+      renderAdmin(document.getElementById('app-content'));
+    }
+
+    function toggleAdminUserBlock(id) {
+      const u = state.adminUsers.find(x => x.id === id);
+      if (!u) return;
+      u.blocked = !u.blocked;
+      addAuditLog('ADMIN', `${u.blocked ? 'Bloqueou' : 'Desbloqueou'} usuário ${u.id}.`);
+      saveDemoState();
+      renderAdmin(document.getElementById('app-content'));
+    }
+
+    function renderAdminProducts(el) {
+      el.innerHTML = `
+        <div style="display:flex; justify-content:flex-end; margin-bottom:14px;">
+          <button type="button" class="btn btn-primary btn-sm" onclick="openAdminProductModal()">Cadastrar Novo Produto</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Produto</th>
+                <th>Mínimo</th>
+                <th>Prazo</th>
+                <th>Taxa</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${state.products.map(p => `
+                <tr>
+                  <td><strong>${escapeHTML(p.name)}</strong><div style="font-size:12px; color:var(--text-muted);">${escapeHTML(p.institution)}</div></td>
+                  <td class="tabular">${formatBRL(p.minAmount)}</td>
+                  <td>${escapeHTML(p.termLabel)}</td>
+                  <td class="tabular">${p.feePercent.toFixed(2)}%</td>
+                  <td><span class="state-text ${p.active ? 'state-positive' : 'state-neutral'}">${p.active ? 'Ativo' : 'Inativo'}</span></td>
+                  <td style="display:flex; gap:6px; flex-wrap:wrap;">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="openAdminProductModal('${p.id}')">Editar</button>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="toggleProductActive('${p.id}')">${p.active ? 'Desativar' : 'Ativar'}</button>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteAdminProduct('${p.id}')">Excluir</button>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function openAdminProductModal(prodId = null) {
+      const p = prodId ? state.products.find(x => x.id === prodId) : {
+        id: '', name: '', category: 'PLANO PERSONALIZADO', minAmount: 50, termLabel: '12 meses',
+        feePercent: 0.7, riskLevel: 'Moderado', liquidity: 'Ciclos bimestrais',
+        estimatedMonthlyRate: 0.9, institution: 'Custodiante Autorizada S.A.', description: '', rules: ''
+      };
+      openModal(`
+        <h2 style="font-size:20px; margin-bottom:14px;">${prodId ? 'Editar Produto Financeiro' : 'Cadastrar Produto Financeiro'}</h2>
+        <form onsubmit="saveAdminProduct(event, '${prodId || ''}')" style="display:flex; flex-direction:column; gap:12px;">
+          <div class="grid-2" style="gap:12px;">
+            <div class="field"><label>Nome</label><input id="ap-name" class="input" required value="${escapeHTML(p.name)}" /></div>
+            <div class="field"><label>Categoria</label><input id="ap-cat" class="input" required value="${escapeHTML(p.category)}" /></div>
+          </div>
+          <div class="grid-3" style="gap:10px;">
+            <div class="field"><label>Mínimo (R$)</label><input id="ap-min" class="input tabular" type="number" min="20" step="0.01" required value="${p.minAmount}" /></div>
+            <div class="field"><label>Taxa (%)</label><input id="ap-fee" class="input tabular" type="number" min="0" step="0.01" required value="${p.feePercent}" /></div>
+            <div class="field"><label>Est. a.m. (%)</label><input id="ap-rate" class="input tabular" type="number" min="0.1" step="0.01" required value="${p.estimatedMonthlyRate}" /></div>
+          </div>
+          <div class="grid-2" style="gap:12px;">
+            <div class="field"><label>Prazo</label><input id="ap-term" class="input" required value="${escapeHTML(p.termLabel)}" /></div>
+            <div class="field"><label>Risco</label><input id="ap-risk" class="input" required value="${escapeHTML(p.riskLevel)}" /></div>
+          </div>
+          <div class="field"><label>Instituição responsável</label><input id="ap-inst" class="input" required value="${escapeHTML(p.institution)}" /></div>
+          <div class="field"><label>Descrição</label><textarea id="ap-desc" class="textarea" required>${escapeHTML(p.description)}</textarea></div>
+          <div class="field"><label>Regras</label><input id="ap-rules" class="input" required value="${escapeHTML(p.rules)}" /></div>
+          <div style="display:flex; justify-content:flex-end; gap:10px;">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal()">Cancelar</button>
+            <button type="submit" class="btn btn-primary btn-sm">Salvar Produto</button>
+          </div>
+        </form>
+      `, true);
+    }
+
+    function saveAdminProduct(e, existingId) {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById('ap-name').value.trim(),
+        category: document.getElementById('ap-cat').value.trim(),
+        minAmount: Number(document.getElementById('ap-min').value),
+        feePercent: Number(document.getElementById('ap-fee').value),
+        estimatedMonthlyRate: Number(document.getElementById('ap-rate').value),
+        termLabel: document.getElementById('ap-term').value.trim(),
+        riskLevel: document.getElementById('ap-risk').value.trim(),
+        liquidity: 'Ciclos bimestrais',
+        institution: document.getElementById('ap-inst').value.trim(),
+        description: document.getElementById('ap-desc').value.trim(),
+        rules: document.getElementById('ap-rules').value.trim(),
+        active: true
+      };
+      if (existingId) {
+        const idx = state.products.findIndex(x => x.id === existingId);
+        if (idx >= 0) state.products[idx] = { ...state.products[idx], ...data };
+      } else {
+        state.products.push({ id: genId('PRD'), termMonths: 12, ...data });
+      }
+      addAuditLog('ADMIN', `${existingId ? 'Editou' : 'Cadastrou'} produto ${data.name}.`);
+      saveDemoState();
+      closeModal();
+      initLanding();
+      renderAdmin(document.getElementById('app-content'));
+      showToast('Produto salvo com sucesso.');
+    }
+
+    function toggleProductActive(id) {
+      const p = state.products.find(x => x.id === id);
+      if (!p) return;
+      p.active = !p.active;
+      saveDemoState();
+      initLanding();
+      renderAdmin(document.getElementById('app-content'));
+    }
+
+    function deleteAdminProduct(id) {
+      state.products = state.products.filter(x => x.id !== id);
+      saveDemoState();
+      initLanding();
+      renderAdmin(document.getElementById('app-content'));
+      showToast('Produto removido.', 'warning');
+    }
+
+    function renderAdminWithdrawals(el) {
+      el.innerHTML = `
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Pedido / Usuário</th>
+                <th>Método / Ciclo</th>
+                <th class="text-right">Valor</th>
+                <th>Status</th>
+                <th>Justificativa</th>
+                <th>Decisão</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${state.withdrawals.map(w => `
+                <tr>
+                  <td><strong class="tabular">${escapeHTML(w.id)}</strong><div style="font-size:12px; color:var(--text-muted);">${escapeHTML(w.userName || state.user.name)}</div></td>
+                  <td><div>${escapeHTML(w.method)}</div><div style="font-size:12px; color:var(--text-muted);">${escapeHTML(w.cycle)}</div></td>
+                  <td class="text-right tabular"><strong>${formatBRL(w.amount)}</strong></td>
+                  <td><strong>${escapeHTML(w.status)}</strong></td>
+                  <td style="font-size:12.5px; color:var(--text-secondary);">${escapeHTML(w.note || '—')}</td>
+                  <td style="display:flex; gap:6px; flex-wrap:wrap;">
+                    ${w.status === 'Pendente' || w.status === 'Em Processamento' || w.status === 'Aprovado' ? `
+                      ${w.status === 'Pendente' ? `<button type="button" class="btn btn-secondary btn-sm" onclick="decideWithdrawal('${w.id}', 'Aprovado')">Aprovar</button>` : ''}
+                      <button type="button" class="btn btn-positive btn-sm" onclick="decideWithdrawal('${w.id}', 'Pago')">Marcar Pago</button>
+                      <button type="button" class="btn btn-danger btn-sm" onclick="openRejectWithdrawal('${w.id}')">Recusar</button>
+                    ` : '—'}
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function decideWithdrawal(id, nextStatus, justification = '') {
+      const w = state.withdrawals.find(x => x.id === id);
+      if (!w) return;
+      w.status = nextStatus;
+      if (justification) w.note = justification;
+      if (nextStatus === 'Pago') {
+        w.note = 'Liquidação confirmada em modo demo';
+        state.balances.totalWithdrawn = +(state.balances.totalWithdrawn + w.amount).toFixed(2);
+        addNotification('Saque processado', `Seu saque ${id} de ${formatBRL(w.amount)} foi marcado como Pago.`);
+      } else if (nextStatus === 'Aprovado') {
+        w.note = 'Aprovado para liquidação';
+        addNotification('Saque aprovado', `Pedido ${id} aprovado pelo administrador.`);
+      } else if (nextStatus === 'Recusado') {
+        state.balances.availableForWithdrawal = +(state.balances.availableForWithdrawal + w.amount).toFixed(2);
+        addNotification('Saque recusado', `Pedido ${id} recusado: ${justification}. Valor devolvido ao saldo disponível.`);
+      }
+      addAuditLog('ADMIN', `Alterou saque ${id} para ${nextStatus}${justification ? ' (' + justification + ')' : ''}.`);
+      saveDemoState();
+      renderAdmin(document.getElementById('app-content'));
+      showToast(`Saque ${id} atualizado para ${nextStatus}.`);
+    }
+
+    function openRejectWithdrawal(id) {
+      openModal(`
+        <h2 style="font-size:19px; margin-bottom:10px;">Recusar Solicitação ${escapeHTML(id)}</h2>
+        <form onsubmit="event.preventDefault(); const r=document.getElementById('rej-note').value.trim(); closeModal(); decideWithdrawal('${id}', 'Recusado', r);" style="display:flex; flex-direction:column; gap:12px;">
+          <div class="field">
+            <label for="rej-note">Justificativa obrigatória</label>
+            <textarea id="rej-note" class="textarea" required placeholder="Informe o motivo da recusa..."></textarea>
+          </div>
+          <div style="display:flex; justify-content:flex-end; gap:10px;">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal()">Cancelar</button>
+            <button type="submit" class="btn btn-danger btn-sm">Confirmar Recusa</button>
+          </div>
+        </form>
+      `);
+    }
+
+    function renderAdminPromo(el) {
+      const r = state.promoRules;
+      el.innerHTML = `
+        <form onsubmit="saveAdminPromo(event)" style="display:flex; flex-direction:column; gap:14px; max-width:640px;">
+          <div class="grid-2" style="gap:12px;">
+            <div class="field"><label>Bônus por indicação qualificada (R$)</label><input id="pr-bonus" class="input tabular" type="number" min="0" step="0.01" value="${r.bonusPerQualifiedUser}" /></div>
+            <div class="field"><label>Limite de indicações por usuário</label><input id="pr-max" class="input tabular" type="number" min="1" value="${r.maxReferralsPerUser}" /></div>
+          </div>
+          <div class="grid-2" style="gap:12px;">
+            <div class="field"><label>Orçamento total da campanha (R$)</label><input id="pr-budget" class="input tabular" type="number" min="0" step="10" value="${r.totalBudget}" /></div>
+            <div class="field"><label>Período vigente</label><input id="pr-period" class="input" type="text" value="${escapeHTML(r.campaignPeriod)}" /></div>
+          </div>
+          <label style="display:flex; align-items:center; gap:8px; font-size:14px; cursor:pointer;">
+            <input id="pr-active" type="checkbox" ${r.active ? 'checked' : ''} />
+            <span>Campanha promocional ativa</span>
+          </label>
+          <div><button type="submit" class="btn btn-primary btn-sm">Salvar Regras Promocionais</button></div>
+        </form>
+      `;
+    }
+
+    function saveAdminPromo(e) {
+      e.preventDefault();
+      state.promoRules.bonusPerQualifiedUser = Number(document.getElementById('pr-bonus').value);
+      state.promoRules.maxReferralsPerUser = parseInt(document.getElementById('pr-max').value, 10);
+      state.promoRules.totalBudget = Number(document.getElementById('pr-budget').value);
+      state.promoRules.campaignPeriod = document.getElementById('pr-period').value.trim();
+      state.promoRules.active = document.getElementById('pr-active').checked;
+      addAuditLog('ADMIN', 'Atualizou regras do programa promocional de indicações.');
+      saveDemoState();
+      renderAdmin(document.getElementById('app-content'));
+      showToast('Regras da campanha promocional atualizadas.');
+    }
+
+    function renderAdminAudit(el) {
+      el.innerHTML = `
+        <div class="grid-2" style="align-items:start;">
+          <div>
+            <h3 style="font-size:16px; margin-bottom:10px;">Camada de Integração Preparada</h3>
+            <pre style="background:var(--bg-input); border:1px solid var(--border-hairline); border-radius:10px; padding:14px; font-family:var(--font-mono); font-size:12px; overflow-x:auto; color:#CBD5E1; margin:0;">${escapeHTML(JSON.stringify(IntegrationConfig, null, 2))}</pre>
+          </div>
+          <div>
+            <h3 style="font-size:16px; margin-bottom:10px;">Logs de Auditoria Recentes</h3>
+            <div style="display:flex; flex-direction:column; gap:8px; max-height:300px; overflow-y:auto;">
+              ${state.auditLogs.map(l => `
+                <div style="padding:10px 12px; background:var(--bg-input); border:1px solid var(--border-hairline); border-radius:8px; font-size:12.5px;">
+                  <div class="tabular" style="color:var(--text-muted); font-size:11.5px;">${escapeHTML(l.date)} · Ator: ${escapeHTML(l.actor)}</div>
+                  <div style="margin-top:2px;">${escapeHTML(l.action)}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ==========================================================================
+       INICIALIZAÇÃO DO APLICATIVO
+       ========================================================================== */
+    document.addEventListener('DOMContentLoaded', () => {
+      initLanding();
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('ref')) {
+        openAuthModal('register');
+      } else if (state.authenticated) {
+        enterAppShell();
+      }
+
+      document.addEventListener('click', (evt) => {
+        const panel = document.getElementById('notif-panel');
+        if (panel && !panel.classList.contains('hidden') && !evt.target.closest('.notif-wrap')) {
+          panel.classList.add('hidden');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

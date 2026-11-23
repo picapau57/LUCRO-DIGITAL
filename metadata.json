@@ -1,0 +1,6 @@
+{
+  "name": "LUCRO DIGITAL",
+  "description": "Plataforma fintech demonstrativa para gestão de aportes, acompanhamento de investimentos, rendimentos transparentes, indicações e saques planejados.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
